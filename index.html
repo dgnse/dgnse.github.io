@@ -44,13 +44,10 @@
   <header class="sticky top-0 z-50 glass border-b border-slate-200/50">
     <div class="container mx-auto px-4 py-4">
       <div class="flex flex-col md:flex-row gap-4 items-center">
-        <!-- 标题 -->
         <div class="flex items-center gap-2">
           <i class="fa fa-compass text-primary text-2xl"></i>
           <h1 class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">网站导航中心</h1>
         </div>
-        
-        <!-- 搜索框 -->
         <div class="w-full md:w-1/2 relative">
           <input type="text" id="search-input" 
                  placeholder="搜索网站或内容..." 
@@ -71,9 +68,7 @@
         <i class="fa fa-star text-amber-400"></i>
         <span>快捷访问</span>
       </h2>
-      
       <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-        <!-- 快捷访问卡片 - 可点击添加/编辑 -->
         <div class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover border border-dashed border-slate-200">
           <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center">
             <i class="fa fa-plus text-slate-400"></i>
@@ -83,37 +78,31 @@
       </div>
     </section>
 
-    <!-- 分类导航 -->
-    <!-- 社交媒体 -->
+    <!-- 分类导航：社交媒体 -->
     <section class="mb-10">
       <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
         <i class="fa fa-share-alt text-pink-500"></i>
         <span>社交媒体</span>
       </h2>
-      
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <!-- 网站卡片 -->
         <a href="https://www.weibo.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
             <i class="fa fa-weibo text-red-500"></i>
           </div>
           <p class="text-sm font-medium">微博</p>
         </a>
-        
         <a href="https://www.qq.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
             <i class="fa fa-qq text-blue-500"></i>
           </div>
           <p class="text-sm font-medium">QQ</p>
         </a>
-        
         <a href="https://www.wechat.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
             <i class="fa fa-weixin text-green-500"></i>
           </div>
           <p class="text-sm font-medium">微信</p>
         </a>
-        
         <a href="https://www.douban.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
             <i class="fa fa-book text-red-600"></i>
@@ -123,13 +112,12 @@
       </div>
     </section>
 
-    <!-- 视频平台 -->
+    <!-- 分类导航：视频平台 -->
     <section class="mb-10">
       <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
         <i class="fa fa-play-circle text-red-500"></i>
         <span>视频平台</span>
       </h2>
-      
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         <a href="https://www.youtube.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
@@ -137,21 +125,18 @@
           </div>
           <p class="text-sm font-medium">YouTube</p>
         </a>
-        
         <a href="https://www.bilibili.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center">
             <i class="fa fa-play text-pink-500"></i>
           </div>
           <p class="text-sm font-medium">哔哩哔哩</p>
         </a>
-        
         <a href="https://www.iqiyi.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
             <i class="fa fa-television text-purple-500"></i>
           </div>
           <p class="text-sm font-medium">爱奇艺</p>
         </a>
-        
         <a href="https://v.qq.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
             <i class="fa fa-film text-blue-500"></i>
@@ -161,51 +146,48 @@
       </div>
     </section>
 
-    <!-- 实用工具 -->
+    <!-- 分类导航：实用工具（含带网址的快拍压缩、图片压缩） -->
     <section class="mb-10">
       <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
         <i class="fa fa-wrench text-indigo-500"></i>
         <span>实用工具</span>
       </h2>
-      
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <!-- 快拍压缩（带网址，替换成你的实际网址） -->
+        <a href="https://dgnse.github.io" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
+          <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+            <i class="fa fa-camera text-purple-500"></i>
+          </div>
+          <p class="text-sm font-medium">快拍压缩</p>
+        </a>
+
+        <!-- 图片压缩（带网址，替换成你的实际网址） -->
+        <a href="https://dgnse.github.io" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
+          <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+            <i class="fa fa-compress text-green-500"></i>
+          </div>
+          <p class="text-sm font-medium">图片压缩</p>
+        </a>
+
+        <!-- 原有工具 -->
         <a href="https://translate.google.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
             <i class="fa fa-language text-blue-500"></i>
           </div>
           <p class="text-sm font-medium">谷歌翻译</p>
         </a>
-        
         <a href="https://www.baidu.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
             <i class="fa fa-search text-red-500"></i>
           </div>
           <p class="text-sm font-medium">百度</p>
         </a>
-        
         <a href="https://www.github.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center">
             <i class="fa fa-github text-slate-700"></i>
           </div>
           <p class="text-sm font-medium">GitHub</p>
         </a>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <a href="https://dgnse.github.io/pnn.html" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
-          <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-            <i class="fa fa-language text-blue-500"></i>
-          </div>
-          <p class="text-sm font-medium">快拍壓縮</p>
-        </a>
-        
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <a href="https://dgnse.github.io/pn.html" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
-          <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-            <i class="fa fa-language text-blue-500"></i>
-          </div>
-          <p class="text-sm font-medium">压缩图片</p>
-        </a>
-        
         <a href="https://calendar.google.com" target="_blank" class="glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover">
           <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
             <i class="fa fa-calendar text-red-500"></i>
@@ -219,8 +201,7 @@
   <!-- 页脚 -->
   <footer class="glass border-t border-slate-200/50 py-6">
     <div class="container mx-auto px-4 text-center text-sm text-slate-500">
-      <p>一站式网站导航 &copy; 2025 | 点击卡片直接访问对应网站</p>
-      <p class="mt-2">可根据需求添加或修改网站链接</p>
+      <p>一站式网站导航 &copy; 2023 | 点击卡片直接访问对应网站</p>
     </div>
   </footer>
 
@@ -235,26 +216,23 @@
     function performSearch() {
       const query = document.getElementById('search-input').value.trim();
       if (query) {
-        // 默认使用百度搜索，可替换为其他搜索引擎
         window.open(`https://www.baidu.com/s?wd=${encodeURIComponent(query)}`, '_blank');
       }
     }
 
-    // 动态添加网站功能（简单示例）
+    // 动态添加网站功能
     const addButton = document.querySelector('.grid-cols-2 .card-hover');
     addButton.addEventListener('click', () => {
       const siteName = prompt('请输入网站名称:');
       const siteUrl = prompt('请输入网站URL:');
       
       if (siteName && siteUrl) {
-        // 创建新的网站卡片
         const newCard = document.createElement('a');
         newCard.href = siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`;
         newCard.target = '_blank';
         newCard.className = 'glass rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 card-hover';
         
-        // 随机颜色
-        const colors = ['red', 'blue', 'green', 'purple', 'pink', 'indigo', 'amber'];
+        const colors = ['red', 'blue', 'green', 'purple'];
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         
         newCard.innerHTML = `
@@ -264,7 +242,7 @@
           <p class="text-sm font-medium">${siteName}</p>
         `;
         
-        // 添加到快捷访问区域
+        // 追加到快捷访问区域
         const shortcutGrid = document.querySelector('.grid-cols-2.sm\\:grid-cols-4');
         shortcutGrid.insertBefore(newCard, shortcutGrid.firstChild);
       }
@@ -272,3 +250,4 @@
   </script>
 </body>
 </html>
+
