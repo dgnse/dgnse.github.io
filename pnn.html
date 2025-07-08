@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>快拍压缩 - 一键拍照，自动压缩</title>
+  <!-- 引入外部资源 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563EB',
+            secondary: '#EC4899',
+            dark: '#1E293B',
+            light: '#F8FAFC'
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass {
+        @apply bg-white/80 backdrop-blur-md;
+      }
+      .shutter-pulse {
+        animation: pulse 1.5s infinite;
+      }
+      .camera-frame {
+        box-shadow: 0 0 0 4px white, 0 0 0 8px theme('colors.primary/20');
+      }
+      .btn-pop {
+        @apply transition-all duration-300 hover:scale-105 active:scale-95;
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 15px rgba(236, 72, 153, 0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="font-inter bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen text-dark overflow-x-hidden">
+  <!-- 顶部导航 -->
+  <header class="glass fixed top-0 w-full z-50 border-b border-slate-200/50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+          <i class="fa fa-camera text-white"></i>
+        </div>
+        <h1 class="text-lg font-bold">快拍压缩</h1>
+      </div>
+      <div class="text-xs text-slate-500 hidden sm:block">
+        本地处理 · 无需上传 · 节省空间
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto px-4 pt-20 pb-16">
+    <div class="max-w-2xl mx-auto">
+      <!-- 相机预览区域 -->
+      <div class="relative mb-8 mt-6">
+        <!-- 相机装饰框 -->
+        <div class="absolute -inset-3 rounded-3xl bg-gradient-to-br from-primary/10 to-secondary/10 blur-md -z-10"></div>
+        
+        <!-- 相机预览容器 -->
+        <div id="camera-container" class="relative aspect-video rounded-2xl overflow-hidden bg-black camera-frame">
+          <!-- 视频流 -->
+          <video id="camera-preview" class="w-full h-full object-cover" autoplay playsinline></video>
+          
+          <!-- 初始提示层 -->
+          <div id="initial-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white">
+            <div class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center mb-4">
+              <i class="fa fa-camera text-2xl"></i>
+            </div>
+            <p class="text-center px-6">点击下方按钮开启相机</p>
+          </div>
+          
+          <!-- 拍照后预览图 -->
+          <img id="captured-image" class="absolute inset-0 w-full h-full object-cover hidden fade-in" alt="拍摄的照片">
+          
+          <!-- 拍照动画遮罩（初始隐藏） -->
+          <div id="capture-effect" class="absolute inset-0 bg-white opacity-0 hidden"></div>
+        </div>
+        
+        <!-- 相机装饰元素 -->
+        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-full"></div>
+      </div>
+      
+      <!-- 控制面板 -->
+      <div class="glass rounded-2xl p-6 shadow-lg">
+        <!-- 压缩设置 -->
+        <div class="mb-8">
+          <h2 class="text-base font-semibold mb-4 flex items-center gap-2 text-slate-700">
+            <i class="fa fa-compress text-primary"></i>压缩质量调节
+          </h2>
+          <div class="px-2">
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-slate-600 w-16">低画质</span>
+              <input type="range" id="quality-slider" min="1" max="100" value="80" 
+                    class="flex-1 h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-secondary">
+              <span class="text-sm text-slate-600 w-16 text-right">高画质</span>
+            </div>
+            <div class="flex justify-center mt-2">
+              <span id="quality-value" class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                80%
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 操作按钮组 -->
+        <div class="flex items-center justify-center gap-6">
+          <!-- 开启相机按钮 -->
+          <button id="start-camera" class="px-6 py-3 bg-primary text-white rounded-full shadow-md btn-pop flex items-center gap-2">
+            <i class="fa fa-power-off"></i>
+            <span>开启相机</span>
+          </button>
+          
+          <!-- 拍照按钮 -->
+          <button id="capture-btn" class="w-16 h-16 rounded-full bg-secondary text-white shadow-lg btn-pop shutter-pulse disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <i class="fa fa-camera text-xl"></i>
+          </button>
+          
+          <!-- 下载按钮（初始隐藏） -->
+          <button id="download-btn" class="px-6 py-3 bg-green-500 text-white rounded-full shadow-md btn-pop hidden flex items-center gap-2">
+            <i class="fa fa-download"></i>
+            <span>保存图片</span>
+          </button>
+        </div>
+        
+        <!-- 重新拍摄按钮 -->
+        <button id="retake-btn" class="w-full mt-6 py-2.5 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 btn-pop hidden">
+          <i class="fa fa-refresh mr-2"></i>重新拍摄
+        </button>
+      </div>
+      
+      <!-- 功能说明卡片 -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white/70 backdrop-blur-sm p-4 rounded-xl text-center">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+            <i class="fa fa-bolt text-primary"></i>
+          </div>
+          <p class="text-sm">一键拍照，自动压缩</p>
+        </div>
+        <div class="bg-white/70 backdrop-blur-sm p-4 rounded-xl text-center">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+            <i class="fa fa-lock text-primary"></i>
+          </div>
+          <p class="text-sm">本地处理，保护隐私</p>
+        </div>
+        <div class="bg-white/70 backdrop-blur-sm p-4 rounded-xl text-center">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+            <i class="fa fa-hdd-o text-primary"></i>
+          </div>
+          <p class="text-sm">节省空间，高效存储</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="mt-12 py-6 text-center text-sm text-slate-500">
+    <p>快拍压缩工具 &copy; 2023 | 所有操作均在本地完成</p>
+  </footer>
+
+  <script>
+    // DOM元素
+    const cameraPreview = document.getElementById('camera-preview');
+    const capturedImage = document.getElementById('captured-image');
+    const initialOverlay = document.getElementById('initial-overlay');
+    const captureEffect = document.getElementById('capture-effect');
+    const startCameraBtn = document.getElementById('start-camera');
+    const captureBtn = document.getElementById('capture-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const retakeBtn = document.getElementById('retake-btn');
+    const qualitySlider = document.getElementById('quality-slider');
+    const qualityValue = document.getElementById('quality-value');
+    
+    let stream = null;
+    let compressedBlob = null;
+
+    // 显示压缩质量值
+    qualitySlider.addEventListener('input', () => {
+      qualityValue.textContent = `${qualitySlider.value}%`;
+    });
+
+    // 开启相机
+    startCameraBtn.addEventListener('click', async () => {
+      try {
+        // 请求相机权限（优先后置摄像头）
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
+            facingMode: 'environment'
+          }
+        });
+        
+        // 显示相机预览
+        cameraPreview.srcObject = stream;
+        initialOverlay.classList.add('hidden');
+        startCameraBtn.disabled = true;
+        startCameraBtn.innerHTML = '<i class="fa fa-check"></i><span>相机已开启</span>';
+        captureBtn.disabled = false;
+      } catch (error) {
+        alert('无法访问相机，请检查权限设置或使用其他浏览器');
+        console.error('相机访问错误:', error);
+      }
+    });
+
+    // 拍照功能
+    captureBtn.addEventListener('click', () => {
+      // 拍照动画效果
+      captureEffect.classList.remove('hidden');
+      captureEffect.style.opacity = '0.6';
+      
+      setTimeout(() => {
+        // 创建canvas捕获当前帧
+        const canvas = document.createElement('canvas');
+        canvas.width = cameraPreview.videoWidth;
+        canvas.height = cameraPreview.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(cameraPreview, 0, 0, canvas.width, canvas.height);
+        
+        // 停止视频流
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+        }
+        
+        // 显示拍摄的照片
+        capturedImage.src = canvas.toDataURL('image/jpeg');
+        capturedImage.classList.remove('hidden');
+        
+        // 压缩图片
+        const quality = parseInt(qualitySlider.value) / 100;
+        canvas.toBlob(blob => {
+          compressedBlob = blob;
+          downloadBtn.classList.remove('hidden');
+          retakeBtn.classList.remove('hidden');
+        }, 'image/jpeg', quality);
+        
+        // 隐藏动画效果
+        captureEffect.style.opacity = '0';
+        setTimeout(() => captureEffect.classList.add('hidden'), 300);
+        
+        // 隐藏拍照按钮，显示下载按钮
+        captureBtn.classList.add('hidden');
+        startCameraBtn.classList.add('hidden');
+      }, 300);
+    });
+
+    // 下载图片
+    downloadBtn.addEventListener('click', () => {
+      if (!compressedBlob) return;
+      
+      // 创建下载链接
+      const url = URL.createObjectURL(compressedBlob);
+      const a = document.createElement('a');
+      
+      // 生成带时间戳的文件名
+      const timestamp = new Date().toISOString().replace(/:/g, '-').slice(0, 19);
+      a.download = `compressed_photo_${timestamp}.jpg`;
+      a.href = url;
+      
+      // 触发下载
+      document.body.appendChild(a);
+      a.click();
+      
+      // 清理资源
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    });
+
+    // 重新拍摄
+    retakeBtn.addEventListener('click', () => {
+      // 重置界面
+      capturedImage.classList.add('hidden');
+      initialOverlay.classList.remove('hidden');
+      downloadBtn.classList.add('hidden');
+      retakeBtn.classList.add('hidden');
+      startCameraBtn.classList.remove('hidden');
+      startCameraBtn.disabled = false;
+      startCameraBtn.innerHTML = '<i class="fa fa-power-off"></i><span>开启相机</span>';
+      captureBtn.classList.remove('hidden');
+      captureBtn.disabled = true;
+      compressedBlob = null;
+    });
+  </script>
+</body>
+</html>
