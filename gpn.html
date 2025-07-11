@@ -3,420 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片高清化工具 - 专业AI图像增强</title>
+    <title>图片高清化工具</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.19.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/upscaler@0.12.4/dist/upscaler.min.js"></script>
+    <!-- 更换为更稳定的库版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.14.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/upscaler@1.0.0-beta.24/dist/upscaler.min.js"></script>
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4F94FC', // 原网站主蓝色
-                        secondary: '#3DD1E7', // 辅助亮蓝色
-                        dark: '#1A1A2E', // 深色背景
-                        darker: '#16213E', // 卡片背景
-                        darkgray: '#2A2A40', // 边框/分隔色
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .card-hover {
-                @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1;
-            }
-            .text-gradient {
-                @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
-            }
-            .section-padding {
-                @apply py-16 md:py-24;
-            }
-        }
+    <style>
+        body { background: #1A1A2E; color: #e5e7eb; }
+        .card { background: #16213E; border: 1px solid #2A2A40; border-radius: 12px; padding: 20px; }
+        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-primary { background: #4F94FC; color: white; }
+        .btn-primary:disabled { background: #4F94FC80; cursor: not-allowed; }
+        .image-area { border: 2px dashed #2A2A40; border-radius: 8px; min-height: 200px; display: flex; align-items: center; justify-content: center; padding: 16px; }
     </style>
 </head>
-<body class="bg-dark text-gray-300 font-inter min-h-screen">
-    <!-- 导航栏 -->
-    <nav class="bg-darker/80 backdrop-blur-md fixed w-full z-50 border-b border-darkgray">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="#" class="flex items-center">
-                        <i class="fa fa-magic text-primary text-2xl mr-2"></i>
-                        <span class="text-white font-bold text-xl">PicEnhance</span>
-                    </a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="#features" class="text-gray-300 hover:text-primary transition-colors">功能</a>
-                    <a href="#why-us" class="text-gray-300 hover:text-primary transition-colors">为什么选择我们</a>
-                    <a href="#tool" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors">开始使用</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- 英雄区域 -->
-    <section class="pt-32 pb-20 md:pt-40 md:pb-28 px-4 text-center">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-white leading-tight mb-6">
-                AI驱动的<span class="text-gradient">图片高清化工具</span>
-            </h1>
-            <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-400 mb-10 max-w-2xl mx-auto">
-                无需专业技能，一键提升图片清晰度。通过先进的AI算法，让模糊的图片恢复细节，支持各种场景使用。
-            </p>
-            <a href="#tool" class="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all shadow-lg shadow-primary/20">
-                立即尝试 <i class="fa fa-arrow-right ml-2"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- 功能介绍 -->
-    <section id="features" class="section-padding bg-darker/50 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-white mb-4">强大功能，简单操作</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">我们的工具集成了多种先进技术，满足你的图片增强需求</p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-darker p-6 rounded-xl border border-darkgray card-hover">
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fa fa-magic text-primary text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">AI智能增强</h3>
-                    <p class="text-gray-400">通过深度学习算法，自动识别图片细节并优化，提升清晰度的同时保留真实感。</p>
-                </div>
-                
-                <div class="bg-darker p-6 rounded-xl border border-darkgray card-hover">
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fa fa-bolt text-primary text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">快速处理</h3>
-                    <p class="text-gray-400">优化的模型架构，在保证效果的同时提升处理速度，无需长时间等待。</p>
-                </div>
-                
-                <div class="bg-darker p-6 rounded-xl border border-darkgray card-hover">
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fa fa-lock text-primary text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">本地处理</h3>
-                    <p class="text-gray-400">图片在你的设备上本地处理，不会上传到服务器，保护你的隐私安全。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 为什么选择我们 -->
-    <section id="why-us" class="section-padding px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-white mb-4">为什么选择我们</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">相比其他工具，我们的优势显而易见</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-x-12 gap-y-10">
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-white mb-2">免费无限制</h3>
-                        <p class="text-gray-400">完全免费使用，无次数限制、无功能阉割，所有高清化功能免费开放。</p>
-                    </div>
-                </div>
-                
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-white mb-2">无需注册登录</h3>
-                        <p class="text-gray-400">打开即可使用，无需繁琐的注册流程，不收集任何个人信息。</p>
-                    </div>
-                </div>
-                
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-white mb-2">多格式支持</h3>
-                        <p class="text-gray-400">支持JPG、PNG、WebP等常见图片格式，满足不同场景的使用需求。</p>
-                    </div>
-                </div>
-                
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-white mb-2">直观操作体验</h3>
-                        <p class="text-gray-400">极简界面设计，三步即可完成图片高清化，无需专业知识也能轻松使用。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 工具区域 -->
-    <section id="tool" class="section-padding bg-darker/50 px-4">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold text-white mb-4">图片高清化工具</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">上传图片，一键提升清晰度</p>
-            </div>
-            
-            <!-- 工具主体 -->
-            <div class="bg-darker rounded-2xl border border-darkgray p-6 md:p-8 shadow-xl">
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <!-- 原始图片区域 -->
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4 text-white flex items-center">
-                            <i class="fa fa-picture-o mr-2 text-primary"></i>原始图片
-                        </h3>
-                        <div id="originalImage" class="border-2 border-dashed border-darkgray rounded-lg p-6 min-h-[220px] flex items-center justify-center cursor-pointer transition-all hover:border-primary hover:bg-primary/5">
-                            <label for="imageUpload" class="text-center w-full cursor-pointer">
-                                <i class="fa fa-upload text-4xl text-gray-500 mb-3 block"></i>
-                                <p class="text-gray-400">点击或拖拽图片到此处</p>
-                                <input type="file" id="imageUpload" accept="image/*" class="hidden">
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- 处理后图片区域 -->
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4 text-white flex items-center">
-                            <i class="fa fa-magic mr-2 text-primary"></i>高清化图片
-                        </h3>
-                        <div id="processedImage" class="border-2 border-dashed border-darkgray rounded-lg p-6 min-h-[220px] flex items-center justify-center">
-                            <p class="text-gray-400 text-center">处理后的图片将显示在这里</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex flex-wrap justify-center gap-4 mb-6">
-                    <button id="processBtn" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed" disabled>
-                        <i class="fa fa-play mr-2"></i>开始高清化
-                    </button>
-                    <button id="downloadBtn" class="bg-secondary hover:bg-secondary/90 text-white font-medium py-3 px-6 rounded-lg transition-all" style="display:none">
-                        <i class="fa fa-download mr-2"></i>下载图片
-                    </button>
-                    <button id="resetBtn" class="bg-darkgray hover:bg-darkgray/80 text-gray-200 font-medium py-3 px-6 rounded-lg transition-all" disabled>
-                        <i class="fa fa-refresh mr-2"></i>重新上传
-                    </button>
-                </div>
-                
-                <div id="status" class="text-center text-gray-400 py-2 px-4 rounded-lg bg-dark/50">
-                    请上传图片开始处理
+<body class="p-4">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold text-center mb-6">图片高清化工具</h1>
+        
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="card">
+                <h3 class="mb-3">原始图片</h3>
+                <div id="original" class="image-area">
+                    <label for="upload">
+                        <i class="fa fa-upload text-3xl text-gray-500"></i>
+                        <p>点击上传图片</p>
+                        <input type="file" id="upload" accept="image/*" class="hidden">
+                    </label>
                 </div>
             </div>
             
-            <div class="mt-8 text-center text-sm text-gray-500">
-                <p>提示：建议使用小于5MB的图片，处理速度更快；首次使用需加载模型，可能需要几秒时间</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer class="bg-darker border-t border-darkgray py-8 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center mb-4 md:mb-0">
-                    <i class="fa fa-magic text-primary text-2xl mr-2"></i>
-                    <span class="text-white font-bold text-xl">PicEnhance</span>
-                </div>
-                <div class="text-gray-400 text-sm">
-                    &copy; 2023 PicEnhance. 保留所有权利。
+            <div class="card">
+                <h3 class="mb-3">处理后图片</h3>
+                <div id="result" class="image-area">
+                    <p>处理结果将显示在这里</p>
                 </div>
             </div>
         </div>
-    </footer>
+        
+        <div class="flex justify-center gap-4 mb-4">
+            <button id="process" class="btn btn-primary" disabled>开始处理</button>
+            <button id="download" class="btn btn-primary" style="display:none">下载图片</button>
+        </div>
+        
+        <div id="log" class="bg-darkgray p-4 rounded-lg text-sm min-h-[40px]">
+            状态：等待上传图片
+        </div>
+    </div>
 
     <script>
-        // 工具功能代码
-        let originalImg = null;
-        const uploadInput = document.getElementById('imageUpload');
-        const originalContainer = document.getElementById('originalImage');
-        const processedContainer = document.getElementById('processedImage');
-        const processBtn = document.getElementById('processBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const statusText = document.getElementById('status');
-        
-        // 上传区域交互
-        originalContainer.addEventListener('mouseenter', () => {
-            if (!originalImg) originalContainer.classList.add('border-primary', 'bg-primary/5');
-        });
-        
-        originalContainer.addEventListener('mouseleave', () => {
-            if (!originalImg) originalContainer.classList.remove('border-primary', 'bg-primary/5');
-        });
-        
-        // 监听文件上传
-        uploadInput.addEventListener('change', handleFileUpload);
-        
-        // 拖拽上传
-        originalContainer.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            originalContainer.classList.add('border-primary', 'bg-primary/5');
-        });
-        
-        originalContainer.addEventListener('dragleave', () => {
-            if (!originalImg) originalContainer.classList.remove('border-primary', 'bg-primary/5');
-        });
-        
-        originalContainer.addEventListener('drop', (e) => {
-            e.preventDefault();
-            originalContainer.classList.remove('border-primary', 'bg-primary/5');
-            if (e.dataTransfer.files.length) {
-                uploadInput.files = e.dataTransfer.files;
-                handleFileUpload(e);
-            }
-        });
-        
-        // 处理上传的图片
-        function handleFileUpload(e) {
+        const upload = document.getElementById('upload');
+        const original = document.getElementById('original');
+        const result = document.getElementById('result');
+        const processBtn = document.getElementById('process');
+        const downloadBtn = document.getElementById('download');
+        const log = document.getElementById('log');
+        let imgElement = null;
+
+        // 上传图片
+        upload.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            if (!file || !file.type.match('image.*')) return;
-            
-            // 检查文件大小（限制5MB以内）
-            if (file.size > 5 * 1024 * 1024) {
-                statusText.textContent = '图片过大，请上传小于5MB的图片';
-                statusText.style.color = '#F87171';
-                return;
-            }
+            if (!file) return;
             
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
                 img.onload = () => {
-                    originalImg = img;
-                    originalContainer.innerHTML = '';
-                    originalContainer.appendChild(img);
-                    img.classList.add('max-w-full', 'max-h-[220px]', 'object-contain', 'rounded-lg');
-                    
-                    // 更新状态
+                    imgElement = img;
+                    original.innerHTML = '';
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '200px';
+                    original.appendChild(img);
                     processBtn.disabled = false;
-                    resetBtn.disabled = false;
-                    statusText.textContent = '图片已加载，点击"开始高清化"按钮处理';
-                    statusText.style.color = '#3DD1E7';
-                    
-                    // 清空处理区
-                    processedContainer.innerHTML = '<p class="text-gray-400 text-center">处理后的图片将显示在这里</p>';
-                    downloadBtn.style.display = 'none';
+                    log.textContent = '状态：图片已加载，可点击处理';
                 };
                 img.src = event.target.result;
             };
             reader.readAsDataURL(file);
-        }
-        
-        // 重新上传
-        resetBtn.addEventListener('click', () => {
-            originalContainer.innerHTML = `
-                <label for="imageUpload" class="text-center w-full cursor-pointer">
-                    <i class="fa fa-upload text-4xl text-gray-500 mb-3 block"></i>
-                    <p class="text-gray-400">点击或拖拽图片到此处</p>
-                    <input type="file" id="imageUpload" accept="image/*" class="hidden">
-                </label>
-            `;
-            processedContainer.innerHTML = '<p class="text-gray-400 text-center">处理后的图片将显示在这里</p>';
-            originalImg = null;
-            processBtn.disabled = true;
-            resetBtn.disabled = true;
-            downloadBtn.style.display = 'none';
-            statusText.textContent = '请上传图片开始处理';
-            statusText.style.color = 'inherit';
         });
-        
+
         // 处理图片
         processBtn.addEventListener('click', async () => {
-            if (!originalImg) return;
+            if (!imgElement) return;
             
             try {
+                log.textContent = '状态：加载模型中...';
                 processBtn.disabled = true;
-                statusText.textContent = '正在加载AI模型...（首次使用可能需要几秒）';
-                statusText.style.color = '#FBBF24';
-                
-                // 初始化高清化工具（使用较小的模型提高加载速度）
+
+                // 使用官方推荐的轻量模型（更小、加载更快）
                 const upscaler = new Upscaler({
-                    model: 'https://cdn.jsdelivr.net/npm/@upscalerjs/esrgan-medium@1.0.0/model.json'
+                    model: {
+                        path: 'https://cdn.jsdelivr.net/npm/@upscalerjs/esrgan-slim@1.0.0-alpha.12/model.json',
+                        scale: 2
+                    }
                 });
-                
-                statusText.textContent = '正在进行高清化处理...请稍候';
-                
-                // 执行处理
-                const start = performance.now();
-                const result = await upscaler.upscale(originalImg, {
-                    output: 'canvas'
-                });
-                const end = performance.now();
-                
+
+                log.textContent = '状态：开始处理图片...';
+                const start = Date.now();
+                const output = await upscaler.upscale(imgElement); // 直接输出图片元素
+                const end = Date.now();
+
                 // 显示结果
-                processedContainer.innerHTML = '';
-                result.classList.add('max-w-full', 'max-h-[220px]', 'object-contain', 'rounded-lg', 'shadow-lg');
-                processedContainer.appendChild(result);
-                
-                // 显示下载按钮
-                downloadBtn.style.display = 'inline-flex';
-                downloadBtn.onclick = () => downloadImage(result.toDataURL());
-                
-                statusText.textContent = `处理完成！耗时 ${((end - start) / 1000).toFixed(1)} 秒`;
-                statusText.style.color = '#34D399';
-            } catch (error) {
-                console.error('处理错误:', error);
-                statusText.textContent = '处理失败，请尝试使用服务器环境打开或更换图片';
-                statusText.style.color = '#F87171';
-                processBtn.disabled = false;
+                result.innerHTML = '';
+                output.style.maxWidth = '100%';
+                output.style.maxHeight = '200px';
+                result.appendChild(output);
+
+                // 准备下载
+                downloadBtn.style.display = 'inline-block';
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = output.src;
+                    a.download = 'enhanced-image.png';
+                    a.click();
+                };
+
+                log.textContent = `状态：处理完成，耗时 ${(end - start)/1000} 秒`;
+            } catch (err) {
+                // 详细错误日志（关键！）
+                log.textContent = `错误：${err.message || '未知错误'}`;
+                console.error('处理错误详情：', err); // 控制台会显示完整错误
+                processBtn.disabled = false; // 允许重试
             }
-        });
-        
-        // 下载图片
-        function downloadImage(dataUrl) {
-            const a = document.createElement('a');
-            a.href = dataUrl;
-            a.download = 'enhanced-image_' + new Date().getTime() + '.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            statusText.textContent = '图片已下载到您的设备';
-            statusText.style.color = '#34D399';
-        }
-        
-        // 点击上传区域触发选择文件
-        originalContainer.addEventListener('click', () => {
-            if (!originalImg) {
-                uploadInput.click();
-            }
-        });
-        
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
         });
     </script>
 </body>
 </html>
+
