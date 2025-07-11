@@ -7,17 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
-    <!-- 保持与你网站一致的样式 -->
+    <!-- 完全复用你网站的配色方案 -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4F94FC',
-                        dark: '#1A1A2E',
-                        darker: '#16213E',
-                        'dark-border': '#2A2A40',
-                        'text-gray': '#8A8F98',
+                        primary: '#4F94FC', // 你的网站主蓝色
+                        dark: '#1A1A2E',    // 你的网站背景色
+                        darker: '#16213E',  // 你的网站卡片色
+                        'dark-border': '#2A2A40', // 你的网站边框色
+                        'text-gray': '#8A8F98',   // 你的网站文字灰色
                     },
                     fontFamily: {
                         inter: ['Inter', 'system-ui', 'sans-serif'],
@@ -29,15 +29,20 @@
     
     <style type="text/tailwindcss">
         @layer utilities {
-            .content-auto {
-                content-visibility: auto;
+            .card-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
             }
         }
     </style>
 </head>
 
+<!-- 完全匹配你的网站深色主题 -->
 <body class="bg-dark text-white font-inter min-h-screen">
-    <!-- 导航栏 -->
+    <!-- 导航栏（与你的网站导航样式一致） -->
     <nav class="bg-darker/90 backdrop-blur-md border-b border-dark-border sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -48,31 +53,121 @@
                     </a>
                 </div>
                 <div class="flex items-center space-x-8">
+                    <a href="#features" class="text-text-gray hover:text-primary transition-colors">Features</a>
+                    <a href="#why" class="text-text-gray hover:text-primary transition-colors">Why Us</a>
                     <a href="#tool" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg transition-colors">Get Started</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- 工具区域 -->
-    <section id="tool" class="py-20 px-4">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">图片清晰化工具</h2>
-                <p class="text-text-gray max-w-2xl mx-auto">上传图片，一键提升清晰度</p>
+    <!-- 头部区域（复用你的网站标题样式） -->
+    <header class="py-20 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight mb-6">
+                Enhance Your Photos
+            </h1>
+            <p class="text-text-gray text-lg mb-10 max-w-2xl mx-auto">
+                Simple tool to make your photos clearer with one click
+            </p>
+            <a href="#tool" class="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all shadow-lg shadow-primary/20">
+                Try Now <i class="fa fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- 功能区（复用你的网站卡片布局） -->
+    <section id="features" class="py-20 px-4 bg-darker/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Powerful Features</h2>
+                <p class="text-text-gray max-w-2xl mx-auto">Everything you need for clearer photos</p>
             </div>
             
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-darker rounded-xl p-6 border border-dark-border card-hover">
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
+                        <i class="fa fa-sharp text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Edge Sharpening</h3>
+                    <p class="text-text-gray">Enhances edges to make details more defined and clear.</p>
+                </div>
+                
+                <div class="bg-darker rounded-xl p-6 border border-dark-border card-hover">
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
+                        <i class="fa fa-bolt text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Fast Processing</h3>
+                    <p class="text-text-gray">Get results in seconds with our optimized algorithms.</p>
+                </div>
+                
+                <div class="bg-darker rounded-xl p-6 border border-dark-border card-hover">
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
+                        <i class="fa fa-download text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Easy Download</h3>
+                    <p class="text-text-gray">Download your enhanced photos with one click.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 为什么选择我们（复用你的网站列表样式） -->
+    <section id="why" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Why Choose Us</h2>
+                <p class="text-text-gray max-w-2xl mx-auto">The best choice for photo enhancement</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-x-16 gap-y-10 max-w-4xl mx-auto">
+                <div class="flex">
+                    <div class="mr-5 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <i class="fa fa-check text-primary"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">No Quality Loss</h3>
+                        <p class="text-text-gray">Enhance clarity without losing original photo quality.</p>
+                    </div>
+                </div>
+                
+                <div class="flex">
+                    <div class="mr-5 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <i class="fa fa-check text-primary"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">100% Secure</h3>
+                        <p class="text-text-gray">All processing happens locally on your device.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工具区域（核心功能，样式完全匹配你的网站） -->
+    <section id="tool" class="py-20 px-4 bg-darker/30">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Photo Enhancement Tool</h2>
+                <p class="text-text-gray max-w-2xl mx-auto">Upload your photo and enhance it instantly</p>
+            </div>
+            
+            <!-- 工具卡片（与你的网站卡片样式完全一致） -->
             <div class="bg-darker rounded-2xl border border-dark-border p-6 md:p-8">
                 <div class="grid md:grid-cols-2 gap-8 mb-8">
                     <!-- 原始图片区域 -->
                     <div>
                         <h3 class="text-lg font-semibold mb-4 flex items-center">
-                            <i class="fa fa-image mr-2 text-primary"></i>原始图片
+                            <i class="fa fa-image mr-2 text-primary"></i>Original Photo
                         </h3>
-                        <div id="originalPhoto" class="border-2 border-dashed border-dark-border rounded-lg p-6 min-h-[220px] flex items-center justify-center cursor-pointer">
+                        <div id="originalPhoto" class="border-2 border-dashed border-dark-border rounded-lg p-6 min-h-[220px] flex items-center justify-center cursor-pointer transition-all hover:border-primary hover:bg-primary/5">
                             <label for="photoUpload" class="text-center w-full cursor-pointer">
                                 <i class="fa fa-upload text-4xl text-text-gray mb-3 block"></i>
-                                <p class="text-text-gray">点击或拖拽图片到此处</p>
+                                <p class="text-text-gray">Click or drag image here</p>
                                 <input type="file" id="photoUpload" accept="image/*" class="hidden">
                             </label>
                         </div>
@@ -81,35 +176,52 @@
                     <!-- 处理后图片区域 -->
                     <div>
                         <h3 class="text-lg font-semibold mb-4 flex items-center">
-                            <i class="fa fa-magic mr-2 text-primary"></i>处理后图片
+                            <i class="fa fa-magic mr-2 text-primary"></i>Enhanced Photo
                         </h3>
                         <div id="enhancedPhoto" class="border-2 border-dashed border-dark-border rounded-lg p-6 min-h-[220px] flex items-center justify-center">
-                            <p class="text-text-gray text-center">处理后的图片将显示在这里</p>
+                            <p class="text-text-gray text-center">Enhanced image will appear here</p>
                         </div>
                     </div>
                 </div>
                 
+                <!-- 按钮区域（与你的网站按钮样式一致） -->
                 <div class="flex flex-wrap justify-center gap-4 mb-6">
                     <button id="enhanceBtn" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed" disabled>
-                        <i class="fa fa-magic mr-2"></i>开始处理
+                        <i class="fa fa-magic mr-2"></i>Enhance Photo
                     </button>
                     <button id="downloadBtn" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all" style="display:none">
-                        <i class="fa fa-download mr-2"></i>下载图片
+                        <i class="fa fa-download mr-2"></i>Download Photo
                     </button>
                     <button id="resetBtn" class="bg-dark-border hover:bg-dark-border/80 text-white font-medium py-3 px-6 rounded-lg transition-all" disabled>
-                        <i class="fa fa-refresh mr-2"></i>重置
+                        <i class="fa fa-refresh mr-2"></i>Reset
                     </button>
                 </div>
                 
+                <!-- 状态提示（与你的网站提示样式一致） -->
                 <div id="status" class="bg-dark/50 p-4 rounded-lg text-sm min-h-[40px] text-text-gray">
-                    状态：等待上传图片
+                    Status: Waiting for photo upload
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- 页脚（与你的网站页脚样式一致） -->
+    <footer class="bg-darker border-t border-dark-border py-8 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fa fa-crop text-primary text-xl mr-2"></i>
+                    <span class="font-bold text-xl">PhotoEnhance</span>
+                </div>
+                <div class="text-text-gray text-sm">
+                    &copy; 2023 PhotoEnhance. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // 核心变量
+        // 工具功能核心代码（确保图片处理正常）
         const photoUpload = document.getElementById('photoUpload');
         const originalPhoto = document.getElementById('originalPhoto');
         const enhancedPhoto = document.getElementById('enhancedPhoto');
@@ -119,34 +231,32 @@
         const status = document.getElementById('status');
         let uploadedImage = null;
         
-        // 创建两个独立画布，避免冲突
-        const sourceCanvas = document.createElement('canvas');
-        const sourceCtx = sourceCanvas.getContext('2d');
-        const targetCanvas = document.createElement('canvas');
-        const targetCtx = targetCanvas.getContext('2d');
+        // 画布和上下文（用于图片处理）
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
         // 上传图片处理
         photoUpload.addEventListener('change', handlePhotoUpload);
-        
-        // 拖拽支持
+
+        // 拖拽上传支持
         originalPhoto.addEventListener('dragover', (e) => {
             e.preventDefault();
-            originalPhoto.classList.add('border-primary');
+            originalPhoto.classList.add('border-primary', 'bg-primary/5');
         });
-        
+
         originalPhoto.addEventListener('dragleave', () => {
-            originalPhoto.classList.remove('border-primary');
+            if (!uploadedImage) originalPhoto.classList.remove('border-primary', 'bg-primary/5');
         });
-        
+
         originalPhoto.addEventListener('drop', (e) => {
             e.preventDefault();
-            originalPhoto.classList.remove('border-primary');
+            originalPhoto.classList.remove('border-primary', 'bg-primary/5');
             if (e.dataTransfer.files.length) {
                 photoUpload.files = e.dataTransfer.files;
                 handlePhotoUpload(e);
             }
         });
-        
+
         // 处理上传的图片
         function handlePhotoUpload(e) {
             const file = e.target.files[0];
@@ -155,20 +265,19 @@
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
-                // 关键：设置crossOrigin，避免画布污染
-                img.crossOrigin = 'anonymous';
+                img.crossOrigin = 'anonymous'; // 防止画布污染
                 img.onload = () => {
                     uploadedImage = img;
                     originalPhoto.innerHTML = '';
                     img.classList.add('max-w-full', 'max-h-[220px]', 'object-contain', 'rounded-lg');
                     originalPhoto.appendChild(img);
                     
-                    // 更新状态
+                    // 更新按钮状态
                     enhanceBtn.disabled = false;
                     resetBtn.disabled = false;
-                    status.textContent = '状态：图片已加载，点击"开始处理"';
+                    status.textContent = 'Status: Image uploaded, ready to enhance';
                     status.style.color = '#36d399';
-                    enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">处理后的图片将显示在这里</p>';
+                    enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">Enhanced image will appear here</p>';
                     downloadBtn.style.display = 'none';
                 };
                 img.src = event.target.result;
@@ -181,121 +290,126 @@
             originalPhoto.innerHTML = `
                 <label for="photoUpload" class="text-center w-full cursor-pointer">
                     <i class="fa fa-upload text-4xl text-text-gray mb-3 block"></i>
-                    <p class="text-text-gray">点击或拖拽图片到此处</p>
+                    <p class="text-text-gray">Click or drag image here</p>
                     <input type="file" id="photoUpload" accept="image/*" class="hidden">
                 </label>
             `;
-            enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">处理后的图片将显示在这里</p>';
+            enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">Enhanced image will appear here</p>';
             uploadedImage = null;
             enhanceBtn.disabled = true;
             resetBtn.disabled = true;
             downloadBtn.style.display = 'none';
-            status.textContent = '状态：等待上传图片';
+            status.textContent = 'Status: Waiting for photo upload';
             status.style.color = '';
         });
 
-        // 清晰化处理函数（简化但稳定的版本）
+        // 图片增强处理（确保生成正确的图片）
         function enhanceImage(img) {
-            // 设置画布尺寸（与原图一致，避免缩放问题）
-            sourceCanvas.width = img.width;
-            sourceCanvas.height = img.height;
-            targetCanvas.width = img.width;
-            targetCanvas.height = img.height;
-            
-            // 绘制原始图像
-            sourceCtx.drawImage(img, 0, 0);
+            // 设置画布尺寸与原图一致
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
             
             // 获取图像数据
-            const imageData = sourceCtx.getImageData(0, 0, img.width, img.height);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imageData.data;
             
-            // 简单有效的锐化算法（避免复杂处理导致的白色问题）
-            const sharpenKernel = [
-                [0, -1, 0],
-                [-1, 5, -1],
-                [0, -1, 0]
-            ];
-            
-            // 创建输出图像数据
-            const output = sourceCtx.createImageData(img.width, img.height);
+            // 简单有效的锐化算法（避免复杂处理导致错误）
+            const output = ctx.createImageData(canvas.width, canvas.height);
             const outputData = output.data;
             
-            // 应用锐化
-            for (let y = 1; y < img.height - 1; y++) {
-                for (let x = 1; x < img.width - 1; x++) {
-                    let r = 0, g = 0, b = 0;
+            // 复制原始数据（基础处理）
+            for (let i = 0; i < data.length; i++) {
+                outputData[i] = data[i];
+            }
+            
+            // 轻度锐化（只处理边缘像素）
+            for (let y = 1; y < canvas.height - 1; y++) {
+                for (let x = 1; x < canvas.width - 1; x++) {
+                    const idx = (y * canvas.width + x) * 4;
                     
-                    // 应用卷积核
+                    // 计算周围像素的平均值
+                    let avgR = 0, avgG = 0, avgB = 0;
                     for (let ky = -1; ky <= 1; ky++) {
                         for (let kx = -1; kx <= 1; kx++) {
-                            const index = ((y + ky) * img.width + (x + kx)) * 4;
-                            r += data[index] * sharpenKernel[ky + 1][kx + 1];
-                            g += data[index + 1] * sharpenKernel[ky + 1][kx + 1];
-                            b += data[index + 2] * sharpenKernel[ky + 1][kx + 1];
+                            if (ky === 0 && kx === 0) continue; // 跳过当前像素
+                            const nIdx = ((y + ky) * canvas.width + (x + kx)) * 4;
+                            avgR += data[nIdx];
+                            avgG += data[nIdx + 1];
+                            avgB += data[nIdx + 2];
                         }
                     }
+                    avgR /= 8;
+                    avgG /= 8;
+                    avgB /= 8;
                     
-                    // 限制像素值在0-255范围内（关键：避免溢出导致的白色）
-                    const idx = (y * img.width + x) * 4;
-                    outputData[idx] = Math.min(255, Math.max(0, r));
-                    outputData[idx + 1] = Math.min(255, Math.max(0, g));
-                    outputData[idx + 2] = Math.min(255, Math.max(0, b));
-                    outputData[idx + 3] = 255; // 不改变透明度
+                    // 锐化公式：当前像素 = 当前像素 * 2 - 周围平均值
+                    outputData[idx] = Math.min(255, Math.max(0, data[idx] * 2 - avgR));
+                    outputData[idx + 1] = Math.min(255, Math.max(0, data[idx + 1] * 2 - avgG));
+                    outputData[idx + 2] = Math.min(255, Math.max(0, data[idx + 2] * 2 - avgB));
                 }
             }
             
-            // 将处理结果绘制到目标画布
-            targetCtx.putImageData(output, 0, 0);
-            return targetCanvas;
+            ctx.putImageData(output, 0, 0);
+            return canvas;
         }
 
-        // 处理按钮点击
+        // 增强按钮点击事件
         enhanceBtn.addEventListener('click', () => {
             if (!uploadedImage) return;
             
             try {
-                status.textContent = '状态：正在处理图片...';
+                status.textContent = 'Status: Enhancing image...';
                 status.style.color = '#fbbf24';
                 enhanceBtn.disabled = true;
 
-                // 执行处理
+                // 执行增强处理
                 const resultCanvas = enhanceImage(uploadedImage);
                 
-                // 显示结果（关键：使用新的图像元素显示，避免画布直接插入的问题）
+                // 创建图片元素显示结果（避免直接显示画布）
                 const resultImg = new Image();
                 resultImg.onload = () => {
                     enhancedPhoto.innerHTML = '';
                     resultImg.classList.add('max-w-full', 'max-h-[220px]', 'object-contain', 'rounded-lg');
                     enhancedPhoto.appendChild(resultImg);
                     
-                    // 下载按钮
+                    // 下载功能
                     downloadBtn.style.display = 'inline-flex';
                     downloadBtn.onclick = () => {
                         const link = document.createElement('a');
                         link.href = resultCanvas.toDataURL('image/png');
-                        link.download = '清晰化图片.png';
+                        link.download = 'enhanced-image.png';
                         link.click();
                     };
 
-                    status.textContent = '状态：处理完成';
+                    status.textContent = 'Status: Enhancement complete';
                     status.style.color = '#36d399';
                 };
-                // 使用画布数据URL创建图像
                 resultImg.src = resultCanvas.toDataURL('image/png');
 
             } catch (error) {
-                console.error('处理错误:', error);
-                status.textContent = '状态：处理失败，请重试';
+                console.error('Error:', error);
+                status.textContent = 'Status: Enhancement failed, please try again';
                 status.style.color = '#ff4d4f';
                 enhanceBtn.disabled = false;
             }
         });
 
-        // 点击上传区域触发选择
+        // 点击上传区域触发文件选择
         originalPhoto.addEventListener('click', () => {
             if (!uploadedImage) {
                 photoUpload.click();
             }
+        });
+
+        // 平滑滚动（与你的网站交互一致）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
