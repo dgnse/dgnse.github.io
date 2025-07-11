@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
-    <!-- 完全复刻你网站的配色方案 -->
+    <!-- 保持与你网站一致的样式 -->
     <script>
         tailwind.config = {
             theme: {
@@ -46,9 +46,8 @@
     </style>
 </head>
 
-<!-- 完全复刻你网站的深色背景和整体风格 -->
 <body class="bg-dark text-white font-inter min-h-screen">
-    <!-- 导航栏（和你网站导航栏样式一致） -->
+    <!-- 导航栏 -->
     <nav class="bg-darker/90 backdrop-blur-md border-b border-dark-border sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -67,132 +66,36 @@
         </div>
     </nav>
 
-    <!-- 头部区域（复刻你网站的标题样式） -->
+    <!-- 头部区域 -->
     <header class="py-20 px-4 text-center">
         <div class="max-w-3xl mx-auto">
             <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight mb-6">
-                Enhance Your Photos With AI
+                Make Your Photos <span class="text-primary">Sharper</span> Instantly
             </h1>
             <p class="text-text-gray text-lg mb-10 max-w-2xl mx-auto">
-                Simple, fast, and powerful photo enhancement tool. Transform your images with just one click.
+                Advanced clarity enhancement tool to make blurry photos clear with AI-powered algorithms.
             </p>
             <a href="#tool" class="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all shadow-lg shadow-primary/20">
-                Try It Now <i class="fa fa-arrow-right ml-2"></i>
+                Enhance Now <i class="fa fa-arrow-right ml-2"></i>
             </a>
         </div>
     </header>
 
-    <!-- 功能区（和你网站的卡片样式一致） -->
-    <section id="features" class="py-20 px-4 bg-darker/30">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Powerful Features</h2>
-                <p class="text-text-gray max-w-2xl mx-auto">Everything you need to enhance your photos</p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-darker rounded-xl p-6 border border-dark-border hover-lift">
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
-                        <i class="fa fa-magic text-primary text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">AI Enhancement</h3>
-                    <p class="text-text-gray">Advanced algorithms to automatically enhance your photos with stunning results.</p>
-                </div>
-                
-                <div class="bg-darker rounded-xl p-6 border border-dark-border hover-lift">
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
-                        <i class="fa fa-shield text-primary text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Privacy First</h3>
-                    <p class="text-text-gray">All processing happens locally in your browser. Your photos never leave your device.</p>
-                </div>
-                
-                <div class="bg-darker rounded-xl p-6 border border-dark-border hover-lift">
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
-                        <i class="fa fa-bolt text-primary text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Lightning Fast</h3>
-                    <p class="text-text-gray">Process your photos in seconds, not minutes. No waiting for servers.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 为什么选择我们（复刻你网站的列表样式） -->
-    <section id="why" class="py-20 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Why Choose Us</h2>
-                <p class="text-text-gray max-w-2xl mx-auto">The best choice for your photo enhancement needs</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-x-16 gap-y-10 max-w-4xl mx-auto">
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">100% Free</h3>
-                        <p class="text-text-gray">No hidden fees, no subscriptions. Use all features completely free.</p>
-                    </div>
-                </div>
-                
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">No Registration</h3>
-                        <p class="text-text-gray">Start using immediately without creating an account.</p>
-                    </div>
-                </div>
-                
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">No Watermarks</h3>
-                        <p class="text-text-gray">Download your enhanced photos without any watermarks.</p>
-                    </div>
-                </div>
-                
-                <div class="flex">
-                    <div class="mr-5 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <i class="fa fa-check text-primary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">Easy to Use</h3>
-                        <p class="text-text-gray">Simple interface that anyone can master in seconds.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 工具区域（核心功能，样式完全匹配你的网站） -->
+    <!-- 工具区域（核心功能：图片清晰化） -->
     <section id="tool" class="py-20 px-4 bg-darker/30">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Photo Enhancement Tool</h2>
-                <p class="text-text-gray max-w-2xl mx-auto">Upload your photo and enhance it instantly</p>
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Clarity Enhancement Tool</h2>
+                <p class="text-text-gray max-w-2xl mx-auto">Upload a blurry photo and make it clear instantly</p>
             </div>
             
-            <!-- 工具卡片（复刻你网站的卡片细节） -->
+            <!-- 工具卡片 -->
             <div class="bg-darker rounded-2xl border border-dark-border p-6 md:p-8 card-shadow">
                 <div class="grid md:grid-cols-2 gap-8 mb-8">
                     <!-- 原始图片区域 -->
                     <div>
                         <h3 class="text-lg font-semibold mb-4 flex items-center">
-                            <i class="fa fa-image mr-2 text-primary"></i>Original Photo
+                            <i class="fa fa-image mr-2 text-primary"></i>Original (Blurry)
                         </h3>
                         <div id="originalPhoto" class="border-2 border-dashed border-dark-border rounded-lg p-6 min-h-[220px] flex items-center justify-center cursor-pointer transition-all hover:border-primary hover:bg-primary/5">
                             <label for="photoUpload" class="text-center w-full cursor-pointer">
@@ -203,13 +106,13 @@
                         </div>
                     </div>
                     
-                    <!-- 处理后图片区域 -->
+                    <!-- 清晰化后图片区域 -->
                     <div>
                         <h3 class="text-lg font-semibold mb-4 flex items-center">
-                            <i class="fa fa-magic mr-2 text-primary"></i>Enhanced Photo
+                            <i class="fa fa-magic mr-2 text-primary"></i>Enhanced (Clear)
                         </h3>
                         <div id="enhancedPhoto" class="border-2 border-dashed border-dark-border rounded-lg p-6 min-h-[220px] flex items-center justify-center">
-                            <p class="text-text-gray text-center">Enhanced image will appear here</p>
+                            <p class="text-text-gray text-center">Clear result will appear here</p>
                         </div>
                     </div>
                 </div>
@@ -217,10 +120,10 @@
                 <!-- 按钮区域 -->
                 <div class="flex flex-wrap justify-center gap-4 mb-6">
                     <button id="enhanceBtn" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed" disabled>
-                        <i class="fa fa-rocket mr-2"></i>Enhance Photo
+                        <i class="fa fa-magic mr-2"></i>Make It Clear
                     </button>
                     <button id="downloadBtn" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all" style="display:none">
-                        <i class="fa fa-download mr-2"></i>Download Photo
+                        <i class="fa fa-download mr-2"></i>Download Clear Photo
                     </button>
                     <button id="resetBtn" class="bg-dark-border hover:bg-dark-border/80 text-white font-medium py-3 px-6 rounded-lg transition-all" disabled>
                         <i class="fa fa-refresh mr-2"></i>Reset
@@ -235,7 +138,79 @@
         </div>
     </section>
 
-    <!-- 页脚（复刻你网站的页脚样式） -->
+    <!-- 功能区 -->
+    <section id="features" class="py-20 px-4 bg-darker/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Clarity Features</h2>
+                <p class="text-text-gray max-w-2xl mx-auto">Powerful tools to enhance photo sharpness</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-darker rounded-xl p-6 border border-dark-border hover-lift">
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
+                        <i class="fa fa-sharp text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Edge Sharpening</h3>
+                    <p class="text-text-gray">Enhances edges in photos to make details more defined and clear.</p>
+                </div>
+                
+                <div class="bg-darker rounded-xl p-6 border border-dark-border hover-lift">
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
+                        <i class="fa fa-filter text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Noise Reduction</h3>
+                    <p class="text-text-gray">Reduces grain and noise while preserving important details in photos.</p>
+                </div>
+                
+                <div class="bg-darker rounded-xl p-6 border border-dark-border hover-lift">
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-5">
+                        <i class="fa fa-expand text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Detail Enhancement</h3>
+                    <p class="text-text-gray">Brings out hidden details in blurry areas of your photos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 为什么选择我们 -->
+    <section id="why" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">Why Choose Our Tool</h2>
+                <p class="text-text-gray max-w-2xl mx-auto">Better clarity enhancement than other tools</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-x-16 gap-y-10 max-w-4xl mx-auto">
+                <div class="flex">
+                    <div class="mr-5 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <i class="fa fa-check text-primary"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Advanced Clarity</h3>
+                        <p class="text-text-gray">Our algorithm preserves natural look while making photos sharper.</p>
+                    </div>
+                </div>
+                
+                <div class="flex">
+                    <div class="mr-5 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <i class="fa fa-check text-primary"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">No Over-Sharpening</h3>
+                        <p class="text-text-gray">Avoids artificial-looking edges that ruin photo quality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
     <footer class="bg-darker border-t border-dark-border py-8 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -251,7 +226,7 @@
     </footer>
 
     <script>
-        // 工具功能实现
+        // 核心：增强图片清晰度的算法优化
         const photoUpload = document.getElementById('photoUpload');
         const originalPhoto = document.getElementById('originalPhoto');
         const enhancedPhoto = document.getElementById('enhancedPhoto');
@@ -290,13 +265,6 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            // 检查文件类型
-            if (!file.type.match('image.*')) {
-                status.textContent = 'Status: Please upload a valid image file';
-                status.style.color = '#ff4d4f';
-                return;
-            }
-
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
@@ -306,14 +274,11 @@
                     img.classList.add('max-w-full', 'max-h-[220px]', 'object-contain', 'rounded-lg');
                     originalPhoto.appendChild(img);
                     
-                    // 更新按钮状态
                     enhanceBtn.disabled = false;
                     resetBtn.disabled = false;
-                    status.textContent = 'Status: Image uploaded, ready to enhance';
+                    status.textContent = 'Status: Image uploaded, ready to enhance clarity';
                     status.style.color = '#36d399';
-                    
-                    // 清空处理结果区
-                    enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">Enhanced image will appear here</p>';
+                    enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">Clear result will appear here</p>';
                     downloadBtn.style.display = 'none';
                 };
                 img.src = event.target.result;
@@ -330,7 +295,7 @@
                     <input type="file" id="photoUpload" accept="image/*" class="hidden">
                 </label>
             `;
-            enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">Enhanced image will appear here</p>';
+            enhancedPhoto.innerHTML = '<p class="text-text-gray text-center">Clear result will appear here</p>';
             uploadedImage = null;
             enhanceBtn.disabled = true;
             resetBtn.disabled = true;
@@ -339,83 +304,197 @@
             status.style.color = '';
         });
 
-        // 图片增强算法（使用锐化和对比度提升）
-        function enhanceImage(img) {
-            // 设置画布尺寸（适度放大1.2倍）
-            canvas.width = img.width * 1.2;
-            canvas.height = img.height * 1.2;
+        // 【核心优化】更强大的图片清晰化算法
+        function enhanceClarity(img) {
+            // 设置画布尺寸
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
             
-            // 绘制原始图像
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            // 1. 先进行降噪处理（减少噪点，避免锐化后噪点更明显）
+            let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            imageData = reduceNoise(imageData, 1.5); // 轻度降噪
             
-            // 获取图像数据
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
+            // 2. 增强边缘（让细节更清晰）
+            imageData = enhanceEdges(imageData);
             
-            // 1. 应用锐化滤镜
-            const sharpenedData = applySharpenFilter(imageData);
+            // 3. 提升局部对比度（让明暗细节更突出）
+            imageData = enhanceLocalContrast(imageData, 1.2);
             
-            // 2. 提升对比度
-            const finalData = enhanceContrast(sharpenedData);
+            // 4. 应用锐化滤镜（强化清晰度）
+            imageData = applyAdvancedSharpen(imageData, 1.8); // 增强锐化强度
             
-            ctx.putImageData(finalData, 0, 0);
+            ctx.putImageData(imageData, 0, 0);
             return canvas;
         }
 
-        // 锐化滤镜
-        function applySharpenFilter(imageData) {
+        // 降噪函数（保留细节的同时减少噪点）
+        function reduceNoise(imageData, strength) {
             const data = imageData.data;
             const width = imageData.width;
             const height = imageData.height;
             const output = ctx.createImageData(width, height);
             const outputData = output.data;
             
-            // 锐化卷积核
+            // 简单的中值滤波降噪
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    const index = (y * width + x) * 4;
+                    const neighbors = [];
+                    
+                    // 收集周围像素
+                    for (let ky = -1; ky <= 1; ky++) {
+                        for (let kx = -1; kx <= 1; kx++) {
+                            const nIndex = ((y + ky) * width + (x + kx)) * 4;
+                            neighbors.push({
+                                r: data[nIndex],
+                                g: data[nIndex + 1],
+                                b: data[nIndex + 2]
+                            });
+                        }
+                    }
+                    
+                    // 取中值（减少噪点）
+                    neighbors.sort((a, b) => a.r - b.r);
+                    const median = neighbors[Math.floor(neighbors.length / 2)];
+                    
+                    outputData[index] = Math.round((data[index] * (10 - strength) + median.r * strength) / 10);
+                    outputData[index + 1] = Math.round((data[index + 1] * (10 - strength) + median.g * strength) / 10);
+                    outputData[index + 2] = Math.round((data[index + 2] * (10 - strength) + median.b * strength) / 10);
+                    outputData[index + 3] = 255;
+                }
+            }
+            return output;
+        }
+
+        // 增强边缘（让物体边界更清晰）
+        function enhanceEdges(imageData) {
+            const data = imageData.data;
+            const width = imageData.width;
+            const height = imageData.height;
+            const output = ctx.createImageData(width, height);
+            const outputData = output.data;
+            
+            // 边缘检测算子
+            const sobelX = [
+                [-1, 0, 1],
+                [-2, 0, 2],
+                [-1, 0, 1]
+            ];
+            
+            const sobelY = [
+                [-1, -2, -1],
+                [0, 0, 0],
+                [1, 2, 1]
+            ];
+            
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    let gx = 0, gy = 0;
+                    
+                    // 计算梯度
+                    for (let ky = -1; ky <= 1; ky++) {
+                        for (let kx = -1; kx <= 1; kx++) {
+                            const index = ((y + ky) * width + (x + kx)) * 4;
+                            gx += data[index] * sobelX[ky + 1][kx + 1];
+                            gy += data[index] * sobelY[ky + 1][kx + 1];
+                        }
+                    }
+                    
+                    // 计算梯度强度（边缘强度）
+                    const gradient = Math.sqrt(gx * gx + gy * gy);
+                    const edgeFactor = Math.min(1, gradient / 100); // 限制边缘增强幅度
+                    
+                    // 原始像素索引
+                    const index = (y * width + x) * 4;
+                    
+                    // 增强边缘（边缘区域稍微提高对比度）
+                    outputData[index] = Math.min(255, data[index] + (data[index] - 128) * edgeFactor * 0.3);
+                    outputData[index + 1] = Math.min(255, data[index + 1] + (data[index + 1] - 128) * edgeFactor * 0.3);
+                    outputData[index + 2] = Math.min(255, data[index + 2] + (data[index + 2] - 128) * edgeFactor * 0.3);
+                    outputData[index + 3] = 255;
+                }
+            }
+            return output;
+        }
+
+        // 增强局部对比度（让小区域内的明暗更明显）
+        function enhanceLocalContrast(imageData, strength) {
+            const data = imageData.data;
+            const width = imageData.width;
+            const height = imageData.height;
+            const output = ctx.createImageData(width, height);
+            const outputData = output.data;
+            
+            for (let y = 2; y < height - 2; y++) {
+                for (let x = 2; x < width - 2; x++) {
+                    const index = (y * width + x) * 4;
+                    
+                    // 计算局部区域的平均值（5x5范围）
+                    let avgR = 0, avgG = 0, avgB = 0;
+                    let count = 0;
+                    
+                    for (let ky = -2; ky <= 2; ky++) {
+                        for (let kx = -2; kx <= 2; kx++) {
+                            const nIndex = ((y + ky) * width + (x + kx)) * 4;
+                            avgR += data[nIndex];
+                            avgG += data[nIndex + 1];
+                            avgB += data[nIndex + 2];
+                            count++;
+                        }
+                    }
+                    
+                    avgR /= count;
+                    avgG /= count;
+                    avgB /= count;
+                    
+                    // 增强局部对比度（与区域平均值的差异放大）
+                    outputData[index] = Math.min(255, Math.max(0, avgR + (data[index] - avgR) * strength));
+                    outputData[index + 1] = Math.min(255, Math.max(0, avgG + (data[index + 1] - avgG) * strength));
+                    outputData[index + 2] = Math.min(255, Math.max(0, avgB + (data[index + 2] - avgB) * strength));
+                    outputData[index + 3] = 255;
+                }
+            }
+            return output;
+        }
+
+        // 高级锐化算法（比普通锐化更自然）
+        function applyAdvancedSharpen(imageData, amount) {
+            const data = imageData.data;
+            const width = imageData.width;
+            const height = imageData.height;
+            const output = ctx.createImageData(width, height);
+            const outputData = output.data;
+            
+            // 改进的锐化核（边缘增强更自然）
             const kernel = [
                 [0, -1, 0],
-                [-1, 5, -1],
+                [-1, 5 + (amount - 1), -1],
                 [0, -1, 0]
             ];
             
-            // 应用卷积
             for (let y = 1; y < height - 1; y++) {
                 for (let x = 1; x < width - 1; x++) {
                     let r = 0, g = 0, b = 0;
                     
                     for (let ky = -1; ky <= 1; ky++) {
                         for (let kx = -1; kx <= 1; kx++) {
-                            const pixelIndex = ((y + ky) * width + (x + kx)) * 4;
-                            r += data[pixelIndex] * kernel[ky + 1][kx + 1];
-                            g += data[pixelIndex + 1] * kernel[ky + 1][kx + 1];
-                            b += data[pixelIndex + 2] * kernel[ky + 1][kx + 1];
+                            const index = ((y + ky) * width + (x + kx)) * 4;
+                            r += data[index] * kernel[ky + 1][kx + 1];
+                            g += data[index + 1] * kernel[ky + 1][kx + 1];
+                            b += data[index + 2] * kernel[ky + 1][kx + 1];
                         }
                     }
                     
-                    // 限制像素值范围
+                    // 限制像素值范围，避免过曝
                     const index = (y * width + x) * 4;
                     outputData[index] = Math.min(255, Math.max(0, r));
                     outputData[index + 1] = Math.min(255, Math.max(0, g));
                     outputData[index + 2] = Math.min(255, Math.max(0, b));
-                    outputData[index + 3] = 255; // 不改变透明度
+                    outputData[index + 3] = 255;
                 }
             }
-            
             return output;
-        }
-
-        // 提升对比度
-        function enhanceContrast(imageData) {
-            const data = imageData.data;
-            const contrast = 1.2; // 对比度提升20%
-            
-            for (let i = 0; i < data.length; i += 4) {
-                // 对每个通道应用对比度调整
-                data[i] = Math.min(255, Math.max(0, (data[i] - 128) * contrast + 128));
-                data[i + 1] = Math.min(255, Math.max(0, (data[i + 1] - 128) * contrast + 128));
-                data[i + 2] = Math.min(255, Math.max(0, (data[i + 2] - 128) * contrast + 128));
-            }
-            
-            return imageData;
         }
 
         // 增强按钮点击事件
@@ -423,14 +502,14 @@
             if (!uploadedImage) return;
             
             try {
-                status.textContent = 'Status: Enhancing image...';
+                status.textContent = 'Status: Making photo clearer...';
                 status.style.color = '#fbbf24';
                 enhanceBtn.disabled = true;
 
-                // 执行增强处理
-                const enhancedCanvas = enhanceImage(uploadedImage);
+                // 执行清晰化处理
+                const enhancedCanvas = enhanceClarity(uploadedImage);
                 
-                // 显示增强结果
+                // 显示清晰化结果
                 enhancedPhoto.innerHTML = '';
                 enhancedCanvas.classList.add('max-w-full', 'max-h-[220px]', 'object-contain', 'rounded-lg', 'shadow-lg');
                 enhancedPhoto.appendChild(enhancedCanvas);
@@ -440,15 +519,15 @@
                 downloadBtn.onclick = () => {
                     const link = document.createElement('a');
                     link.href = enhancedCanvas.toDataURL('image/png');
-                    link.download = 'enhanced-photo.png';
+                    link.download = 'clear-photo.png';
                     link.click();
                 };
 
-                status.textContent = 'Status: Image enhanced successfully';
+                status.textContent = 'Status: Photo made clear successfully';
                 status.style.color = '#36d399';
             } catch (error) {
-                console.error('Enhancement error:', error);
-                status.textContent = 'Status: Failed to enhance image, please try again';
+                console.error('Clarity enhancement error:', error);
+                status.textContent = 'Status: Failed to enhance clarity, please try again';
                 status.style.color = '#ff4d4f';
                 enhanceBtn.disabled = false;
             }
