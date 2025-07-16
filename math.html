@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算术练习</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn {
+            padding: 8px 12px;
+            margin: 4px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+        .btn-secondary {
+            background: #10B981;
+            color: white;
+        }
+        .mode-btn {
+            width: 80px;
+            margin: 3px;
+            display: inline-block;
+        }
+        .num-btn {
+            width: 31%;
+            padding: 12px 0;
+            margin: 1px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .num-btn:hover {
+            background: #e0e0e0;
+        }
+        #question {
+            font-size: 22px;
+            margin: 15px 0;
+            text-align: center;
+            min-height: 30px;
+        }
+        #answer {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .feedback {
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 15px;
+        }
+        .correct {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .wrong {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .hidden {
+            display: none;
+        }
+        #wrongList {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin: 12px 0;
+        }
+        .mode-group {
+            margin: 10px 0;
+        }
+        .mode-group h4 {
+            margin: 8px 0 5px 0;
+            color: #555;
+        }
+        .count-select {
+            margin: 10px 0;
+            padding: 8px;
+        }
+        .count-btn {
+            margin: 0 3px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>算术练习</h2>
+        
+        <!-- 模式选择 -->
+        <div id="modeSelect">
+            <!-- 题目数量选择 -->
+            <div class="count-select">
+                <h4>题目数量</h4>
+                <button class="btn count-btn btn-primary" data-count="10">10题</button>
+                <button class="btn count-btn btn-primary" data-count="20">20题</button>
+                <button class="btn count-btn btn-primary" data-count="30">30题</button>
+                <input type="number" id="customCount" placeholder="自定义（0为无限）" style="width:100px;padding:5px;margin-left:5px;">
+            </div>
+            
+            <!-- 加法模式 -->
+            <div class="mode-group">
+                <h4>加法</h4>
+                <button class="btn mode-btn btn-primary" data-mode="add1">1位+1位</button>
+                <button class="btn mode-btn btn-primary" data-mode="add2">1位+2位</button>
+                <button class="btn mode-btn btn-primary" data-mode="add3">2位+2位</button>
+            </div>
+            
+            <!-- 减法模式 -->
+            <div class="mode-group">
+                <h4>减法</h4>
+                <button class="btn mode-btn btn-primary" data-mode="sub1">1位-1位</button>
+                <button class="btn mode-btn btn-primary" data-mode="sub2">2位-1位</button>
+                <button class="btn mode-btn btn-primary" data-mode="sub3">2位-2位</button>
+            </div>
+            
+            <!-- 乘法模式（仅1位×1位） -->
+            <div class="mode-group">
+                <h4>乘法</h4>
+                <button class="btn mode-btn btn-primary" data-mode="mul1">1位×1位</button>
+            </div>
+
+            <!-- 除法模式（仅1位÷1位） -->
+            <div class="mode-group">
+                <h4>除法</h4>
+                <button class="btn mode-btn btn-primary" data-mode="div1">1位÷1位</button>
+            </div>
+            
+            <!-- 混合模式 -->
+            <div class="mode-group">
+                <h4>混合</h4>
+                <button class="btn mode-btn btn-primary" data-mode="addsub">加减混合</button>
+                <button class="btn mode-btn btn-primary" data-mode="muldiv">乘除混合</button>
+                <button class="btn mode-btn btn-primary" data-mode="all">全部混合</button>
+            </div>
+            
+            <button class="btn btn-danger" id="showWrongBtn" style="margin-top:10px;">错题本</button>
+        </div>
+        
+        <!-- 练习区域 -->
+        <div id="practiceArea" class="hidden">
+            <div id="stats">进度: 1/10 | 正确率: 0%</div>
+            <div id="question">3 + 5 = ?</div>
+            <input type="number" id="answer" placeholder="输入答案">
+            
+            <!-- 自带数字键盘 -->
+            <div class="keyboard">
+                <button class="num-btn">1</button>
+                <button class="num-btn">2</button>
+                <button class="num-btn">3</button>
+                <button class="num-btn">4</button>
+                <button class="num-btn">5</button>
+                <button class="num-btn">6</button>
+                <button class="num-btn">7</button>
+                <button class="num-btn">8</button>
+                <button class="num-btn">9</button>
+                <button class="num-btn" id="clearKey">清除</button>
+                <button class="num-btn">0</button>
+                <button class="num-btn btn-secondary" id="enterKey">提交</button>
+            </div>
+            
+            <div class="feedback hidden" id="feedback"></div>
+            <button class="btn btn-primary" id="nextBtn">下一题</button>
+            <button class="btn btn-danger" id="backBtn">返回</button>
+        </div>
+        
+        <!-- 错题本 -->
+        <div id="wrongArea" class="hidden">
+            <h3>错题本</h3>
+            <div id="wrongList">暂无错题</div>
+            <button class="btn btn-primary" id="reviewBtn">错题重练</button>
+            <button class="btn btn-danger" id="clearWrongBtn">清空错题</button>
+            <button class="btn btn-secondary" id="backFromWrongBtn">返回</button>
+        </div>
+        
+        <!-- 练习结束弹窗 -->
+        <div id="finishPopup" class="hidden" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.3);">
+            <h3>练习结束！</h3>
+            <p>总题数: <span id="totalCount">0</span></p>
+            <p>做对: <span id="correctCount">0</span></p>
+            <p>做错: <span id="wrongCount">0</span></p>
+            <p>正确率: <span id="finalAccuracy">0%</span></p>
+            <button class="btn btn-primary" id="restartBtn">再练一次</button>
+            <button class="btn btn-danger" id="closeFinishBtn">返回主页</button>
+        </div>
+    </div>
+
+    <script>
+        // 状态管理
+        const state = {
+            currentMode: null,
+            totalCount: 0, // 总题数（0为无限）
+            currentIndex: 0, // 当前题序号
+            currentQuestion: { a: 0, b: 0, op: '+', answer: 0 },
+            stats: { total: 0, correct: 0 },
+            wrongQuestions: [],
+            isReviewing: false
+        };
+
+        // DOM元素
+        const elements = {
+            modeSelect: document.getElementById('modeSelect'),
+            practiceArea: document.getElementById('practiceArea'),
+            wrongArea: document.getElementById('wrongArea'),
+            finishPopup: document.getElementById('finishPopup'),
+            question: document.getElementById('question'),
+            answer: document.getElementById('answer'),
+            feedback: document.getElementById('feedback'),
+            stats: document.getElementById('stats'),
+            wrongList: document.getElementById('wrongList'),
+            numKeys: document.querySelectorAll('.num-btn:not(#clearKey):not(#enterKey)'),
+            clearKey: document.getElementById('clearKey'),
+            enterKey: document.getElementById('enterKey'),
+            countBtns: document.querySelectorAll('.count-btn'),
+            customCount: document.getElementById('customCount'),
+            totalCount: document.getElementById('totalCount'),
+            correctCount: document.getElementById('correctCount'),
+            wrongCount: document.getElementById('wrongCount'),
+            finalAccuracy: document.getElementById('finalAccuracy')
+        };
+
+        // 生成随机数
+        function randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // 生成题目（按详细模式）
+        function generateQuestion(mode) {
+            let a, b, op, answer;
+            
+            switch(mode) {
+                // 加法
+                case 'add1': // 1位+1位
+                    a = randomNum(1, 9);
+                    b = randomNum(1, 9);
+                    op = '+';
+                    answer = a + b;
+                    break;
+                case 'add2': // 1位+2位
+                    a = randomNum(1, 9);
+                    b = randomNum(10, 99);
+                    op = '+';
+                    answer = a + b;
+                    break;
+                case 'add3': // 2位+2位
+                    a = randomNum(10, 99);
+                    b = randomNum(10, 99);
+                    op = '+';
+                    answer = a + b;
+                    break;
+                    
+                // 减法（确保结果非负）
+                case 'sub1': // 1位-1位
+                    a = randomNum(1, 9);
+                    b = randomNum(1, a); // 减数≤被减数
+                    op = '-';
+                    answer = a - b;
+                    break;
+                case 'sub2': // 2位-1位
+                    a = randomNum(10, 99);
+                    b = randomNum(1, 9);
+                    op = '-';
+                    answer = a - b;
+                    break;
+                case 'sub3': // 2位-2位
+                    a = randomNum(10, 99);
+                    b = randomNum(10, a); // 减数≤被减数
+                    op = '-';
+                    answer = a - b;
+                    break;
+                    
+                // 乘法（仅1位×1位）
+                case 'mul1':
+                    a = randomNum(1, 9);
+                    b = randomNum(1, 9);
+                    op = '×';
+                    answer = a * b;
+                    break;
+
+                // 除法（仅1位÷1位，确保整除）
+                case 'div1':
+                    b = randomNum(1, 9); // 除数1-9
+                    const temp = randomNum(1, 9); // 商1-9
+                    a = temp * b; // 被除数=商×除数（确保整除）
+                    op = '÷';
+                    answer = temp;
+                    break;
+                    
+                // 混合模式
+                case 'addsub': // 加减混合
+                    const addSubModes = ['add1', 'add2', 'add3', 'sub1', 'sub2', 'sub3'];
+                    return generateQuestion(addSubModes[randomNum(0, addSubModes.length-1)]);
+                case 'muldiv': // 乘除混合
+                    const mulDivModes = ['mul1', 'div1'];
+                    return generateQuestion(mulDivModes[randomNum(0, mulDivModes.length-1)]);
+                case 'all': // 全部混合
+                    const allModes = ['add1', 'add2', 'add3', 'sub1', 'sub2', 'sub3', 'mul1', 'div1'];
+                    return generateQuestion(allModes[randomNum(0, allModes.length-1)]);
+            }
+            
+            return { a, b, op, answer };
+        }
+
+        // 显示当前题目
+        function showQuestion() {
+            state.currentQuestion = generateQuestion(state.currentMode);
+            elements.question.textContent = `${state.currentQuestion.a} ${state.currentQuestion.op} ${state.currentQuestion.b} = ?`;
+            elements.answer.value = '';
+            elements.feedback.classList.add('hidden');
+            
+            // 更新进度统计
+            updateStats();
+        }
+
+        // 更新统计显示
+        function updateStats() {
+            const accuracy = state.stats.total > 0 
+                ? Math.round((state.stats.correct / state.stats.total) * 100) 
+                : 0;
+                
+            if (state.totalCount === 0) {
+                // 无限模式
+                elements.stats.textContent = `题目: ${state.stats.total + 1}/∞ | 正确率: ${accuracy}%`;
+            } else {
+                // 有限模式
+                elements.stats.textContent = `进度: ${state.currentIndex + 1}/${state.totalCount} | 正确率: ${accuracy}%`;
+            }
+        }
+
+        // 检查答案
+        function checkAnswer() {
+            const userAnswer = parseInt(elements.answer.value);
+            if (isNaN(userAnswer)) return; // 空输入不处理
+            
+            const isCorrect = userAnswer === state.currentQuestion.answer;
+            
+            // 更新统计
+            state.stats.total++;
+            if (isCorrect) {
+                state.stats.correct++;
+                elements.feedback.textContent = '正确！真棒！';
+                elements.feedback.className = 'feedback correct';
+                
+                // 重练时移除做对的错题
+                if (state.isReviewing) {
+                    state.wrongQuestions = state.wrongQuestions.filter(q => 
+                        !(q.a === state.currentQuestion.a && q.b === state.currentQuestion.b && q.op === state.currentQuestion.op)
+                    );
+                    updateWrongList();
+                }
+            } else {
+                elements.feedback.textContent = `错误！正确答案是 ${state.currentQuestion.answer}`;
+                elements.feedback.className = 'feedback wrong';
+                
+                // 添加到错题本（去重）
+                const isDuplicate = state.wrongQuestions.some(q => 
+                    q.a === state.currentQuestion.a && q.b === state.currentQuestion.b && 
+                    q.op === state.currentQuestion.op && q.answer === state.currentQuestion.answer
+                );
+                if (!isDuplicate) {
+                    state.wrongQuestions.push({...state.currentQuestion});
+                    updateWrongList();
+                }
+            }
+            
+            elements.feedback.classList.remove('hidden');
+            updateStats();
+            saveData();
+        }
+
+        // 更新错题列表
+        function updateWrongList() {
+            if (state.wrongQuestions.length === 0) {
+                elements.wrongList.textContent = '暂无错题';
+                return;
+            }
+            
+            elements.wrongList.innerHTML = '';
+            state.wrongQuestions.forEach((q, i) => {
+                const item = document.createElement('div');
+                item.className = 'wrong-item';
+                item.textContent = `${q.a} ${q.op} ${q.b} = ${q.answer}`;
+                elements.wrongList.appendChild(item);
+            });
+        }
+
+        // 保存数据到本地存储
+        function saveData() {
+            localStorage.setItem('mathStats', JSON.stringify(state.stats));
+            localStorage.setItem('mathWrong', JSON.stringify(state.wrongQuestions));
+        }
+
+        // 加载本地数据
+        function loadData() {
+            const savedStats = localStorage.getItem('mathStats');
+            const savedWrong = localStorage.getItem('mathWrong');
+            
+            if (savedStats) state.stats = JSON.parse(savedStats);
+            if (savedWrong) state.wrongQuestions = JSON.parse(savedWrong);
+            
+            updateWrongList();
+        }
+
+        // 检查是否完成所有题目
+        function checkFinish() {
+            // 无限模式不结束
+            if (state.totalCount === 0) return false;
+            
+            // 有限模式且完成所有题目
+            if (state.currentIndex + 1 >= state.totalCount) {
+                showFinishPopup();
+                return true;
+            }
+            return false;
+        }
+
+        // 显示练习结束弹窗
+        function showFinishPopup() {
+            const wrongCount = state.stats.total - state.stats.correct;
+            const accuracy = state.stats.total > 0 
+                ? Math.round((state.stats.correct / state.stats.total) * 100) 
+                : 0;
+                
+            elements.totalCount.textContent = state.stats.total;
+            elements.correctCount.textContent = state.stats.correct;
+            elements.wrongCount.textContent = wrongCount;
+            elements.finalAccuracy.textContent = `${accuracy}%`;
+            
+            elements.finishPopup.classList.remove('hidden');
+        }
+
+        // 事件监听
+        function setupEvents() {
+            // 题目数量选择
+            elements.countBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.totalCount = parseInt(btn.dataset.count);
+                    elements.customCount.value = ''; // 清空自定义输入
+                });
+            });
+
+            // 自定义数量输入
+            elements.customCount.addEventListener('change', () => {
+                const count = parseInt(elements.customCount.value) || 0;
+                state.totalCount = count;
+            });
+
+            // 模式选择
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 检查是否选择了题目数量
+                    if (state.totalCount === 0 && elements.customCount.value.trim() === '') {
+                        alert('请选择题目数量或输入自定义数量（0为无限）');
+                        return;
+                    }
+                    
+                    state.currentMode = btn.dataset.mode;
+                    state.currentIndex = 0;
+                    state.isReviewing = false;
+                    
+                    // 重置当前练习统计（不影响全局统计）
+                    const currentStats = { ...state.stats };
+                    
+                    elements.modeSelect.classList.add('hidden');
+                    elements.practiceArea.classList.remove('hidden');
+                    showQuestion();
+                });
+            });
+
+            // 数字键盘输入
+            elements.numKeys.forEach(key => {
+                key.addEventListener('click', () => {
+                    elements.answer.value += key.textContent;
+                });
+            });
+
+            // 清除输入
+            elements.clearKey.addEventListener('click', () => {
+                elements.answer.value = elements.answer.value.slice(0, -1);
+            });
+
+            // 提交答案
+            elements.enterKey.addEventListener('click', checkAnswer);
+
+            // 下一题
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (elements.feedback.classList.contains('hidden')) {
+                    // 未提交答案时提示
+                    alert('请先提交答案');
+                    return;
+                }
+                
+                state.currentIndex++;
+                if (!checkFinish()) {
+                    showQuestion();
+                }
+            });
+
+            // 返回主页
+            document.getElementById('backBtn').addEventListener('click', () => {
+                elements.practiceArea.classList.add('hidden');
+                elements.modeSelect.classList.remove('hidden');
+            });
+
+            // 显示错题本
+            document.getElementById('showWrongBtn').addEventListener('click', () => {
+                elements.modeSelect.classList.add('hidden');
+                elements.wrongArea.classList.remove('hidden');
+            });
+
+            // 从错题本返回
+            document.getElementById('backFromWrongBtn').addEventListener('click', () => {
+                elements.wrongArea.classList.add('hidden');
+                elements.modeSelect.classList.remove('hidden');
+            });
+
+            // 错题重练
+            document.getElementById('reviewBtn').addEventListener('click', () => {
+                if (state.wrongQuestions.length === 0) {
+                    alert('没有错题可练习');
+                    return;
+                }
+                
+                state.isReviewing = true;
+                state.totalCount = state.wrongQuestions.length; // 错题数量作为总题数
+                state.currentIndex = 0;
+                state.currentMode = 'all'; // 用混合模式兼容所有错题类型
+                
+                elements.wrongArea.classList.add('hidden');
+                elements.practiceArea.classList.remove('hidden');
+                showQuestion();
+            });
+
+            // 清空错题
+            document.getElementById('clearWrongBtn').addEventListener('click', () => {
+                if (confirm('确定要清空所有错题吗？')) {
+                    state.wrongQuestions = [];
+                    updateWrongList();
+                    saveData();
+                }
+            });
+
+            // 练习结束弹窗-再练一次
+            document.getElementById('restartBtn').addEventListener('click', () => {
+                elements.finishPopup.classList.add('hidden');
+                state.currentIndex = 0;
+                state.stats.total = 0;
+                state.stats.correct = 0;
+                showQuestion();
+            });
+
+            // 练习结束弹窗-返回主页
+            document.getElementById('closeFinishBtn').addEventListener('click', () => {
+                elements.finishPopup.classList.add('hidden');
+                elements.practiceArea.classList.add('hidden');
+                elements.modeSelect.classList.remove('hidden');
+            });
+
+            // 回车键提交答案
+            elements.answer.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkAnswer();
+            });
+        }
+
+        // 初始化
+        function init() {
+            loadData();
+            setupEvents();
+        }
+
+        // 启动应用
+        init();
+    </script>
+</body>
+</html>
+
