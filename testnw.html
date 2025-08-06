@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testnw</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --text: #333;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --toggle-bg: #e9ecef;
+        }
+
+        .dark-mode {
+            --primary: #4895ef;
+            --secondary: #4361ee;
+            --text: #f8f9fa;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --border: #444;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --toggle-bg: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+        }
+
+        .theme-toggle {
+            background: var(--toggle-bg);
+            border-radius: 50px;
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .theme-btn {
+            padding: 8px 15px;
+            border-radius: 50px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .theme-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card-unit {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status.good {
+            background: rgba(76, 201, 240, 0.2);
+            color: #4cc9f0;
+        }
+
+        .status.medium {
+            background: rgba(248, 150, 30, 0.2);
+            color: #f8961e;
+        }
+
+        .status.poor {
+            background: rgba(247, 37, 133, 0.2);
+            color: #f72585;
+        }
+
+        .test-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--toggle-bg);
+            color: var(--text);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .history {
+            margin-top: 40px;
+        }
+
+        .history h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .history-table th {
+            background: rgba(67, 97, 238, 0.1);
+            font-weight: 600;
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: var(--toggle-bg);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        .test-status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>网速测速器</span>
+            </div>
+            <div class="theme-toggle">
+                <button class="theme-btn light active" data-theme="light">浅色</button>
+                <button class="theme-btn dark" data-theme="dark">深色</button>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <i class="fas fa-download"></i>
+                <div class="card-title">下载速度</div>
+                <div class="card-value">0</div>
+                <div class="card-unit">Mbps</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="download-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-upload"></i>
+                <div class="card-title">上传速度</div>
+                <div class="card-value">0</div>
+                <div class="card-unit">Mbps</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="upload-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-stopwatch"></i>
+                <div class="card-title">延迟</div>
+                <div class="card-value">0</div>
+                <div class="card-unit">ms</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="ping-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-film"></i>
+                <div class="card-title">4K视频流畅度</div>
+                <div class="card-description">评估4K视频播放能力</div>
+                <div class="status" id="video-status">未测试</div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-gamepad"></i>
+                <div class="card-title">游戏流畅度</div>
+                <div class="card-description">评估在线游戏体验</div>
+                <div class="status" id="game-status">未测试</div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-broadcast-tower"></i>
+                <div class="card-title">带宽估算</div>
+                <div class="card-value" id="bandwidth-value">0</div>
+                <div class="card-unit">Mbps</div>
+                <div class="card-description">相当于 <span id="bandwidth-desc">未知</span> 的宽带</div>
+            </div>
+        </div>
+
+        <div class="test-status" id="test-status">
+            准备开始测速
+        </div>
+
+        <div class="test-controls">
+            <button class="btn btn-primary" id="start-test">
+                <i class="fas fa-play"></i> 开始测速
+            </button>
+            <button class="btn btn-secondary" id="clear-history">
+                <i class="fas fa-trash-alt"></i> 清除记录
+            </button>
+        </div>
+
+        <div class="history">
+            <h2><i class="fas fa-history"></i> 测速记录</h2>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>下载 (Mbps)</th>
+                        <th>上传 (Mbps)</th>
+                        <th>延迟 (ms)</th>
+                        <th>4K视频</th>
+                        <th>游戏</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body">
+                    <!-- 历史记录将通过JS动态填充 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // DOM元素
+        const startTestBtn = document.getElementById('start-test');
+        const clearHistoryBtn = document.getElementById('clear-history');
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const testStatus = document.getElementById('test-status');
+        const historyBody = document.getElementById('history-body');
+        
+        // 测速结果元素
+        const downloadValue = document.querySelector('.card:nth-child(1) .card-value');
+        const uploadValue = document.querySelector('.card:nth-child(2) .card-value');
+        const pingValue = document.querySelector('.card:nth-child(3) .card-value');
+        const videoStatus = document.getElementById('video-status');
+        const gameStatus = document.getElementById('game-status');
+        const bandwidthValue = document.getElementById('bandwidth-value');
+        const bandwidthDesc = document.getElementById('bandwidth-desc');
+        
+        // 进度条元素
+        const downloadProgress = document.getElementById('download-progress');
+        const uploadProgress = document.getElementById('upload-progress');
+        const pingProgress = document.getElementById('ping-progress');
+
+        // 初始化主题
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+            
+            themeButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === savedTheme);
+            });
+        }
+
+        // 切换主题
+        function switchTheme(theme) {
+            document.body.classList.toggle('dark-mode', theme === 'dark');
+            localStorage.setItem('theme', theme);
+            
+            themeButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+        }
+
+        // 获取历史记录
+        function getHistory() {
+            return JSON.parse(localStorage.getItem('speedTests')) || [];
+        }
+
+        // 保存历史记录
+        function saveToHistory(test) {
+            const history = getHistory();
+            history.unshift({
+                date: new Date().toLocaleString(),
+                download: test.download,
+                upload: test.upload,
+                ping: test.ping,
+                videoStatus: test.videoStatus,
+                gameStatus: test.gameStatus
+            });
+            
+            // 只保留最近的10条记录
+            if (history.length > 10) {
+                history.pop();
+            }
+            
+            localStorage.setItem('speedTests', JSON.stringify(history));
+            renderHistory();
+        }
+
+        // 渲染历史记录
+        function renderHistory() {
+            const history = getHistory();
+            let html = '';
+            
+            if (history.length === 0) {
+                html = `<tr><td colspan="6" style="text-align: center;">暂无测速记录</td></tr>`;
+            } else {
+                history.forEach(test => {
+                    html += `
+                        <tr>
+                            <td>${test.date}</td>
+                            <td>${test.download.toFixed(2)}</td>
+                            <td>${test.upload.toFixed(2)}</td>
+                            <td>${test.ping}</td>
+                            <td><span class="status ${getStatusClass(test.videoStatus)}">${test.videoStatus}</span></td>
+                            <td><span class="status ${getStatusClass(test.gameStatus)}">${test.gameStatus}</span></td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            historyBody.innerHTML = html;
+        }
+
+        // 获取状态对应的CSS类
+        function getStatusClass(status) {
+            if (status === '优秀' || status === '流畅') return 'good';
+            if (status === '良好' || status === '可玩') return 'medium';
+            return 'poor';
+        }
+
+        // 评估4K视频流畅度
+        function evaluateVideoQuality(downloadSpeed) {
+            if (downloadSpeed > 25) return '优秀';
+            if (downloadSpeed > 15) return '良好';
+            return '较差';
+        }
+
+        // 评估游戏流畅度
+        function evaluateGameQuality(ping) {
+            if (ping < 50) return '流畅';
+            if (ping < 100) return '可玩';
+            return '卡顿';
+        }
+
+        // 估算带宽
+        function estimateBandwidth(downloadSpeed) {
+            bandwidthValue.textContent = downloadSpeed.toFixed(2);
+            
+            if (downloadSpeed > 100) {
+                bandwidthDesc.textContent = '千兆光纤';
+            } else if (downloadSpeed > 50) {
+                bandwidthDesc.textContent = '500M宽带';
+            } else if (downloadSpeed > 20) {
+                bandwidthDesc.textContent = '200M宽带';
+            } else if (downloadSpeed > 10) {
+                bandwidthDesc.textContent = '100M宽带';
+            } else if (downloadSpeed > 5) {
+                bandwidthDesc.textContent = '50M宽带';
+            } else {
+                bandwidthDesc.textContent = '基础宽带';
+            }
+        }
+
+        // 模拟延迟测试
+        async function testPing() {
+            return new Promise((resolve) => {
+                testStatus.textContent = '测试延迟中...';
+                pingProgress.style.width = '0%';
+                
+                // 模拟测试过程
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    pingProgress.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        const ping = Math.floor(Math.random() * 100) + 10; // 10-110ms
+                        pingValue.textContent = ping;
+                        resolve(ping);
+                    }
+                }, 50);
+            });
+        }
+
+        // 模拟下载速度测试
+        async function testDownload() {
+            return new Promise((resolve) => {
+                testStatus.textContent = '测试下载速度中...';
+                downloadProgress.style.width = '0%';
+                
+                // 模拟测试过程
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    downloadProgress.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        const download = (Math.random() * 90) + 10; // 10-100 Mbps
+                        downloadValue.textContent = download.toFixed(2);
+                        resolve(download);
+                    }
+                }, 80);
+            });
+        }
+
+        // 模拟上传速度测试
+        async function testUpload() {
+            return new Promise((resolve) => {
+                testStatus.textContent = '测试上传速度中...';
+                uploadProgress.style.width = '0%';
+                
+                // 模拟测试过程
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 3;
+                    uploadProgress.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        const upload = (Math.random() * 30) + 5; // 5-35 Mbps
+                        uploadValue.textContent = upload.toFixed(2);
+                        resolve(upload);
+                    }
+                }, 100);
+            });
+        }
+
+        // 执行完整测试
+        async function runSpeedTest() {
+            startTestBtn.disabled = true;
+            
+            // 重置状态
+            downloadValue.textContent = '0';
+            uploadValue.textContent = '0';
+            pingValue.textContent = '0';
+            videoStatus.textContent = '未测试';
+            gameStatus.textContent = '未测试';
+            videoStatus.className = 'status';
+            gameStatus.className = 'status';
+            
+            try {
+                // 执行测试
+                const ping = await testPing();
+                const download = await testDownload();
+                const upload = await testUpload();
+                
+                // 评估结果
+                const videoQuality = evaluateVideoQuality(download);
+                const gameQuality = evaluateGameQuality(ping);
+                
+                videoStatus.textContent = videoQuality;
+                gameStatus.textContent = gameQuality;
+                videoStatus.classList.add(getStatusClass(videoQuality));
+                gameStatus.classList.add(getStatusClass(gameQuality));
+                
+                estimateBandwidth(download);
+                
+                // 保存结果
+                saveToHistory({
+                    download,
+                    upload,
+                    ping,
+                    videoStatus: videoQuality,
+                    gameStatus: gameQuality
+                });
+                
+                testStatus.textContent = '测速完成！';
+            } catch (error) {
+                testStatus.textContent = '测速失败: ' + error.message;
+            } finally {
+                startTestBtn.disabled = false;
+            }
+        }
+
+        // 清除历史记录
+        function clearHistory() {
+            if (confirm('确定要清除所有测速记录吗？')) {
+                localStorage.removeItem('speedTests');
+                renderHistory();
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            renderHistory();
+            
+            // 事件监听
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchTheme(btn.dataset.theme);
+                });
+            });
+            
+            startTestBtn.addEventListener('click', runSpeedTest);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+        });
+    </script>
+</body>
+</html>
