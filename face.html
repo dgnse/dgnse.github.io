@@ -3,426 +3,637 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>人脸欠款管理系统</title>
-    <!-- 引入人脸检测库 -->
-    <script src="https://cdn.jsdelivr.net/npm/tracking.js@1.1.3/build/tracking-min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tracking.js@1.1.3/build/data/face-min.js"></script>
+    <title>人脸识别债务管理系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --danger: #e63946;
+            --warning: #fca311;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "微软雅黑", Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         body {
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #1d2b64, #f8cdda);
+            min-height: 100vh;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
         }
+        
         .container {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
         }
-        h1 {
-            width: 100%;
+        
+        .app-title {
             text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .camera-box {
-            flex: 1;
-            min-width: 350px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        
+        .app-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
-        .info-box {
-            flex: 1;
-            min-width: 350px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        
+        .app-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
-        #video-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        #video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        #canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .btn-group {
+        
+        .app-container {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
         }
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            flex: 1;
-            min-width: 120px;
-            transition: all 0.3s;
-        }
-        #start-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        #stop-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        #save-btn {
-            background-color: #2196F3;
-            color: white;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .status {
-            padding: 12px;
-            background-color: #f1f9f7;
-            border-radius: 6px;
-            color: #2c6e53;
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-        input {
+        
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
+            max-width: 550px;
+            transition: transform 0.3s ease;
         }
-        .unpaid {
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group:focus-within {
+            border-color: var(--primary);
+        }
+        
+        .input-group i {
+            padding: 0 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .input-group input {
+            flex: 1;
+            border: none;
             padding: 15px;
-            background-color: #fff8e1;
-            border-left: 4px solid #ffc107;
-            margin: 10px 0 20px;
-            font-size: 16px;
+            font-size: 1.1rem;
+            outline: none;
+            background: transparent;
         }
-        .user-list {
-            max-height: 350px;
-            overflow-y: auto;
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .user-item {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.2s;
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        .user-item:hover {
-            background-color: #f9f9f9;
+        
+        .btn-success {
+            background: var(--success);
         }
-        .user-item strong {
-            font-size: 16px;
-            color: #333;
+        
+        .btn-success:hover {
+            background: #38b6d9;
         }
-        .user-item .debt-info {
-            margin: 8px 0;
-            color: #666;
+        
+        .btn-warning {
+            background: var(--warning);
         }
-        .user-item .time {
-            font-size: 12px;
-            color: #999;
+        
+        .btn-warning:hover {
+            background: #e69500;
         }
-        h3 {
-            color: #333;
+        
+        .face-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #a8dadc, #457b9d);
+            margin: 0 auto 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 4rem;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .debt-info {
+            background: #e9f7fe;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .debt-info h3 {
+            color: var(--primary);
             margin-bottom: 15px;
-            padding-bottom: 8px;
+        }
+        
+        .debt-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--danger);
+            margin: 15px 0;
+        }
+        
+        .transaction-history {
+            margin-top: 30px;
+        }
+        
+        .transaction-history h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
             border-bottom: 1px solid #eee;
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .positive {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .negative {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        .debtor-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .debtor-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .debtor-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .debtor-name {
+            font-weight: bold;
+        }
+        
+        .debtor-amount {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .card {
+                max-width: 100%;
+            }
+            
+            .app-title h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>人脸欠款管理系统</h1>
     <div class="container">
-        <!-- 摄像头区域 -->
-        <div class="camera-box">
-            <h3>人脸检测</h3>
-            <div id="video-container">
-                <video id="video" autoplay playsinline></video>
-                <canvas id="canvas"></canvas>
-            </div>
-            <div class="btn-group">
-                <button id="start-btn">开启摄像头</button>
-                <button id="stop-btn" disabled>关闭摄像头</button>
-                <button id="save-btn" disabled>保存用户信息</button>
-            </div>
-            <div class="status" id="status">状态：等待开启摄像头</div>
+        <div class="app-title">
+            <h1><i class="fas fa-user-circle"></i> 人脸识别债务管理系统</h1>
+            <p>记录、追踪和管理债务关系</p>
         </div>
-
-        <!-- 信息管理区域 -->
-        <div class="info-box">
-            <h3>用户欠款信息</h3>
-            <div class="form-group">
-                <label for="username">姓名</label>
-                <input type="text" id="username" placeholder="请输入姓名">
+        
+        <div class="app-container">
+            <!-- 添加债务区域 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-plus-circle"></i> 添加新债务
+                </div>
+                <div class="card-body">
+                    <div class="face-preview">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="debtorName"><i class="fas fa-user"></i> 债务人姓名</label>
+                        <div class="input-group">
+                            <i class="fas fa-signature"></i>
+                            <input type="text" id="debtorName" placeholder="输入债务人姓名">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="debtAmount"><i class="fas fa-money-bill-wave"></i> 欠款金额 (¥)</label>
+                        <div class="input-group">
+                            <i class="fas fa-yen-sign"></i>
+                            <input type="number" id="debtAmount" placeholder="输入欠款金额">
+                        </div>
+                    </div>
+                    
+                    <button class="btn" id="addDebtBtn">
+                        <i class="fas fa-save"></i> 保存债务记录
+                    </button>
+                    
+                    <div class="debtor-list" id="debtorList">
+                        <h3>当前债务人列表</h3>
+                        <div id="debtorsContainer">
+                            <!-- 动态生成的债务人列表 -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="total-debt">总欠款金额（元）</label>
-                <input type="number" id="total-debt" placeholder="例如：2000" min="0">
-            </div>
-            <div class="form-group">
-                <label for="paid-amount">已还款金额（元）</label>
-                <input type="number" id="paid-amount" placeholder="例如：500" min="0">
-            </div>
-            <div class="unpaid">
-                未还款金额：<strong id="unpaid-amount">0</strong> 元
-            </div>
-
-            <h3>已录入用户列表</h3>
-            <div class="user-list" id="user-list">
-                <!-- 用户列表会动态生成 -->
+            
+            <!-- 还款区域 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-hand-holding-usd"></i> 还款管理
+                </div>
+                <div class="card-body">
+                    <div class="face-preview">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="searchDebtor"><i class="fas fa-search"></i> 搜索债务人</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="searchDebtor" placeholder="输入姓名搜索">
+                        </div>
+                    </div>
+                    
+                    <div class="debt-info" id="debtInfo">
+                        <h3>当前债务信息</h3>
+                        <p>请搜索债务人查看债务详情</p>
+                        <div class="debt-amount" id="currentDebt">¥0.00</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="repayAmount"><i class="fas fa-coins"></i> 还款金额 (¥)</label>
+                        <div class="input-group">
+                            <i class="fas fa-yen-sign"></i>
+                            <input type="number" id="repayAmount" placeholder="输入还款金额">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-success" id="repayBtn">
+                        <i class="fas fa-check-circle"></i> 确认还款
+                    </button>
+                    
+                    <div class="transaction-history">
+                        <h3><i class="fas fa-history"></i> 交易记录</h3>
+                        <div id="transactions">
+                            <!-- 动态生成的交易记录 -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 获取DOM元素
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const saveBtn = document.getElementById('save-btn');
-        const status = document.getElementById('status');
-        const usernameInput = document.getElementById('username');
-        const totalDebtInput = document.getElementById('total-debt');
-        const paidAmountInput = document.getElementById('paid-amount');
-        const unpaidAmountSpan = document.getElementById('unpaid-amount');
-        const userList = document.getElementById('user-list');
-
-        // 存储用户数据（LocalStorage持久化）
-        let userDatabase = JSON.parse(localStorage.getItem('faceDebtDB')) || [];
-        let currentUser = null; // 当前识别到的用户
-        let tracker = null; // 人脸追踪器实例
-        let isTracking = false;
-
-        // 计算未还款金额
-        function calculateUnpaid() {
-            const total = Number(totalDebtInput.value) || 0;
-            const paid = Number(paidAmountInput.value) || 0;
-            const unpaid = Math.max(0, total - paid); // 避免负数
-            unpaidAmountSpan.textContent = unpaid;
+        // 使用localStorage存储债务数据
+        let debts = JSON.parse(localStorage.getItem('debts')) || {};
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || {};
+        
+        // DOM元素
+        const debtorNameInput = document.getElementById('debtorName');
+        const debtAmountInput = document.getElementById('debtAmount');
+        const addDebtBtn = document.getElementById('addDebtBtn');
+        const searchDebtorInput = document.getElementById('searchDebtor');
+        const currentDebtDisplay = document.getElementById('currentDebt');
+        const repayAmountInput = document.getElementById('repayAmount');
+        const repayBtn = document.getElementById('repayBtn');
+        const debtorsContainer = document.getElementById('debtorsContainer');
+        const transactionsContainer = document.getElementById('transactions');
+        
+        // 初始化应用
+        function initApp() {
+            updateDebtorList();
+            displayTransactions();
+            
+            // 设置事件监听器
+            addDebtBtn.addEventListener('click', addDebt);
+            repayBtn.addEventListener('click', processRepayment);
+            searchDebtorInput.addEventListener('input', searchDebtor);
         }
-
-        // 监听输入变化，实时计算未还款
-        totalDebtInput.addEventListener('input', calculateUnpaid);
-        paidAmountInput.addEventListener('input', calculateUnpaid);
-
-        // 开启摄像头和人脸检测
-        startBtn.addEventListener('click', async () => {
-            try {
-                // 获取摄像头权限
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { width: 1280, height: 720 } 
-                });
-                video.srcObject = stream;
-                status.textContent = '状态：摄像头已开启，正在检测人脸...';
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-                saveBtn.disabled = false;
-                isTracking = true;
-
-                // 初始化人脸追踪器
-                tracker = new tracking.ObjectTracker('face');
-                tracker.setInitialScale(4); // 初始缩放
-                tracker.setStepSize(2); // 步长
-                tracker.setEdgesDensity(0.1); // 边缘密度
-
-                // 追踪到人脸时的回调
-                tracker.on('track', handleFaceTrack);
-
-                // 开始追踪视频流
-                tracking.track('#video', tracker, { camera: true });
-            } catch (err) {
-                console.error('摄像头访问失败：', err);
-                status.textContent = `错误：请允许摄像头权限或检查设备`;
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-            }
-        });
-
-        // 关闭摄像头和检测
-        stopBtn.addEventListener('click', () => {
-            if (video.srcObject) {
-                // 停止视频流
-                video.srcObject.getTracks().forEach(track => track.stop());
-                video.srcObject = null;
-            }
-            // 停止追踪
-            if (tracker) {
-                tracker.removeListener('track', handleFaceTrack);
-                tracker = null;
-            }
-            // 清空画布
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // 重置状态
-            status.textContent = '状态：已关闭摄像头';
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-            saveBtn.disabled = true;
-            currentUser = null;
-            isTracking = false;
-            clearForm();
-        });
-
-        // 保存用户信息（录入/更新）
-        saveBtn.addEventListener('click', () => {
-            const username = usernameInput.value.trim();
-            if (!username) {
-                alert('请输入用户姓名');
+        
+        // 添加新债务
+        function addDebt() {
+            const name = debtorNameInput.value.trim();
+            const amount = parseFloat(debtAmountInput.value);
+            
+            if (!name) {
+                alert('请输入债务人姓名');
                 return;
             }
-
-            // 生成唯一标识（实际项目应替换为人脸特征值）
-            const faceId = currentUser ? currentUser.faceId : `face_${Date.now()}`;
-            const userData = {
-                faceId,
-                username,
-                totalDebt: Number(totalDebtInput.value) || 0,
-                paidAmount: Number(paidAmountInput.value) || 0,
-                updateTime: new Date().toLocaleString()
-            };
-
-            // 检查是否为更新操作
-            const existingIndex = userDatabase.findIndex(u => u.faceId === faceId);
-            if (existingIndex >= 0) {
-                // 更新已有用户
-                userDatabase[existingIndex] = userData;
-                status.textContent = `状态：已更新 ${username} 的信息`;
-            } else {
-                // 添加新用户
-                userDatabase.push(userData);
-                status.textContent = `状态：已录入新用户 ${username}`;
-            }
-
-            // 保存到LocalStorage
-            localStorage.setItem('faceDebtDB', JSON.stringify(userDatabase));
-            // 更新列表显示
-            renderUserList();
-        });
-
-        // 处理人脸追踪结果
-        function handleFaceTrack(event) {
-            if (!isTracking) return; // 停止状态不处理
-
-            // 调整画布尺寸与视频一致
-            canvas.width = video.offsetWidth;
-            canvas.height = video.offsetHeight;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            if (event.data.length > 0) {
-                // 检测到人脸，绘制边框
-                const face = event.data[0];
-                ctx.strokeStyle = '#4CAF50';
-                ctx.lineWidth = 3;
-                ctx.strokeRect(face.x, face.y, face.width, face.height);
-                ctx.fillStyle = '#4CAF50';
-                ctx.font = '16px Arial';
-                ctx.fillText('人脸', face.x + 5, face.y - 10);
-
-                // 尝试识别人脸（实际项目需替换为真实比对算法）
-                recognizeFace();
-            } else {
-                // 未检测到人脸
-                status.textContent = '状态：未检测到人脸';
-                currentUser = null;
-                clearForm();
-            }
-        }
-
-        // 人脸识别（模拟）
-        function recognizeFace() {
-            // 逻辑：如果有已录入用户，30%概率匹配到一个，否则视为新用户
-            if (userDatabase.length > 0 && Math.random() < 0.3) {
-                // 随机匹配一个已录入用户（实际项目需真实特征比对）
-                currentUser = userDatabase[Math.floor(Math.random() * userDatabase.length)];
-                status.textContent = `状态：已识别 - ${currentUser.username}`;
-                // 填充表单
-                usernameInput.value = currentUser.username;
-                totalDebtInput.value = currentUser.totalDebt;
-                paidAmountInput.value = currentUser.paidAmount;
-                calculateUnpaid();
-            } else {
-                // 新用户
-                currentUser = null;
-                status.textContent = '状态：检测到新人脸，请录入信息';
-                clearForm();
-            }
-        }
-
-        // 清空表单
-        function clearForm() {
-            usernameInput.value = '';
-            totalDebtInput.value = '';
-            paidAmountInput.value = '';
-            calculateUnpaid();
-        }
-
-        // 渲染用户列表
-        function renderUserList() {
-            userList.innerHTML = '';
-            if (userDatabase.length === 0) {
-                userList.innerHTML = '<div style="padding:20px;text-align:center;color:#999;">暂无录入用户</div>';
+            
+            if (isNaN(amount) {
+                alert('请输入有效的欠款金额');
                 return;
             }
-            // 按更新时间排序（最新的在前）
-            const sortedUsers = [...userDatabase].sort((a, b) => 
-                new Date(b.updateTime) - new Date(a.updateTime)
-            );
-            sortedUsers.forEach(user => {
-                const unpaid = Math.max(0, user.totalDebt - user.paidAmount);
-                const item = document.createElement('div');
-                item.className = 'user-item';
-                item.innerHTML = `
-                    <strong>${user.username}</strong>
-                    <div class="debt-info">
-                        总欠款：${user.totalDebt} 元 | 已还：${user.paidAmount} 元 | 
-                        未还：<span style="color:${unpaid > 0 ? '#e53935' : '#43a047'}">${unpaid}</span> 元
-                    </div>
-                    <div class="time">最后更新：${user.updateTime}</div>
+            
+            if (amount <= 0) {
+                alert('欠款金额必须大于0');
+                return;
+            }
+            
+            // 检查是否已存在债务记录
+            if (debts[name]) {
+                debts[name] += amount;
+            } else {
+                debts[name] = amount;
+            }
+            
+            // 添加交易记录
+            addTransaction(name, amount, 'debt');
+            
+            // 保存数据
+            saveData();
+            
+            // 更新UI
+            updateDebtorList();
+            
+            // 重置表单
+            debtorNameInput.value = '';
+            debtAmountInput.value = '';
+            
+            alert(`已成功记录${name}的债务 ¥${amount.toFixed(2)}`);
+        }
+        
+        // 搜索债务人
+        function searchDebtor() {
+            const name = searchDebtorInput.value.trim();
+            
+            if (!name) {
+                currentDebtDisplay.textContent = '¥0.00';
+                document.getElementById('debtInfo').innerHTML = `
+                    <h3>当前债务信息</h3>
+                    <p>请搜索债务人查看债务详情</p>
+                    <div class="debt-amount">¥0.00</div>
                 `;
-                userList.appendChild(item);
+                return;
+            }
+            
+            if (debts[name]) {
+                currentDebtDisplay.textContent = `¥${debts[name].toFixed(2)}`;
+                document.getElementById('debtInfo').innerHTML = `
+                    <h3>${name}的债务信息</h3>
+                    <p>当前欠款总额</p>
+                    <div class="debt-amount">¥${debts[name].toFixed(2)}</div>
+                `;
+            } else {
+                currentDebtDisplay.textContent = '¥0.00';
+                document.getElementById('debtInfo').innerHTML = `
+                    <h3>${name}的债务信息</h3>
+                    <p>未找到该债务人的记录</p>
+                    <div class="debt-amount">¥0.00</div>
+                `;
+            }
+            
+            // 显示该债务人的交易记录
+            displayTransactions(name);
+        }
+        
+        // 处理还款
+        function processRepayment() {
+            const name = searchDebtorInput.value.trim();
+            const amount = parseFloat(repayAmountInput.value);
+            
+            if (!name) {
+                alert('请先搜索债务人');
+                return;
+            }
+            
+            if (!debts[name]) {
+                alert('未找到该债务人的记录');
+                return;
+            }
+            
+            if (isNaN(amount)) {
+                alert('请输入有效的还款金额');
+                return;
+            }
+            
+            if (amount <= 0) {
+                alert('还款金额必须大于0');
+                return;
+            }
+            
+            if (amount > debts[name]) {
+                alert(`还款金额不能超过欠款总额 ¥${debts[name].toFixed(2)}`);
+                return;
+            }
+            
+            // 更新债务金额
+            debts[name] -= amount;
+            
+            // 如果债务为0，删除该债务记录
+            if (debts[name] <= 0) {
+                delete debts[name];
+            }
+            
+            // 添加交易记录
+            addTransaction(name, -amount, 'repayment');
+            
+            // 保存数据
+            saveData();
+            
+            // 更新UI
+            updateDebtorList();
+            searchDebtor();
+            
+            // 重置还款金额输入框
+            repayAmountInput.value = '';
+            
+            alert(`已成功记录${name}的还款 ¥${amount.toFixed(2)}`);
+        }
+        
+        // 添加交易记录
+        function addTransaction(name, amount, type) {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString();
+            const timeStr = now.toLocaleTimeString();
+            
+            const transaction = {
+                name: name,
+                amount: amount,
+                type: type,
+                date: dateStr,
+                time: timeStr,
+                timestamp: now.getTime()
+            };
+            
+            if (!transactions[name]) {
+                transactions[name] = [];
+            }
+            
+            transactions[name].push(transaction);
+        }
+        
+        // 显示交易记录
+        function displayTransactions(name = null) {
+            transactionsContainer.innerHTML = '';
+            
+            if (!name) {
+                transactionsContainer.innerHTML = '<p>搜索特定债务人查看交易记录</p>';
+                return;
+            }
+            
+            if (!transactions[name] || transactions[name].length === 0) {
+                transactionsContainer.innerHTML = `<p>${name}没有交易记录</p>`;
+                return;
+            }
+            
+            // 按时间倒序排序
+            const sortedTransactions = transactions[name].sort((a, b) => b.timestamp - a.timestamp);
+            
+            sortedTransactions.forEach(transaction => {
+                const transactionItem = document.createElement('div');
+                transactionItem.className = 'transaction-item';
+                
+                const amountClass = transaction.amount > 0 ? 'negative' : 'positive';
+                const amountSign = transaction.amount > 0 ? '+' : '';
+                const typeText = transaction.type === 'debt' ? '新增债务' : '还款';
+                
+                transactionItem.innerHTML = `
+                    <div>
+                        <strong>${typeText}</strong>
+                        <div class="small">${transaction.date} ${transaction.time}</div>
+                    </div>
+                    <div class="${amountClass}">
+                        ${amountSign}¥${Math.abs(transaction.amount).toFixed(2)}
+                    </div>
+                `;
+                
+                transactionsContainer.appendChild(transactionItem);
             });
         }
-
-        // 初始化页面时渲染用户列表
-        renderUserList();
+        
+        // 更新债务人列表
+        function updateDebtorList() {
+            debtorsContainer.innerHTML = '';
+            
+            if (Object.keys(debts).length === 0) {
+                debtorsContainer.innerHTML = '<p>暂无债务记录</p>';
+                return;
+            }
+            
+            Object.entries(debts).forEach(([name, amount]) => {
+                const debtorItem = document.createElement('div');
+                debtorItem.className = 'debtor-item';
+                debtorItem.innerHTML = `
+                    <div class="debtor-name">${name}</div>
+                    <div class="debtor-amount">¥${amount.toFixed(2)}</div>
+                `;
+                
+                // 点击债务人项自动填充到搜索框
+                debtorItem.addEventListener('click', () => {
+                    searchDebtorInput.value = name;
+                    searchDebtor();
+                });
+                
+                debtorsContainer.appendChild(debtorItem);
+            });
+        }
+        
+        // 保存数据到localStorage
+        function saveData() {
+            localStorage.setItem('debts', JSON.stringify(debts));
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+        }
+        
+        // 初始化应用
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
